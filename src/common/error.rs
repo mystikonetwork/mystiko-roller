@@ -1,75 +1,63 @@
 use anyhow::Error as AnyhowError;
-use ethers_core::abi::Error as AbiError;
 use ethers_providers::ProviderError;
-use mehcode_config::ConfigError;
+use ethers_signers::WalletError;
+use log::ParseLevelError as LogError;
 use mystiko_crypto::error::MerkleTreeError;
+use mystiko_dataloader::handler::HandlerError;
+use mystiko_dataloader::DataLoaderError;
 use mystiko_protocol::error::ProtocolError;
-use mystiko_server_utils::token_price::error::TokenPriceError;
-use mystiko_server_utils::tx_manager::error::TxManagerError;
+use mystiko_scheduler::SchedulerError;
+use mystiko_server_utils::token_price::PriceMiddlewareError;
+use mystiko_server_utils::tx_manager::TransactionMiddlewareError;
 use mystiko_storage::StorageError;
-use reqwest::Error as ReqwestError;
-use serde_json::Error as SerdeJsonError;
 use thiserror::Error;
-use tokio::task::JoinError;
-
-pub type Result<T> = anyhow::Result<T, RollerError>;
 
 #[derive(Error, Debug)]
 pub enum RollerError {
+    #[error("chain: {0} config not found error")]
+    ChainConfigNotFoundError(u64),
+    #[error("pool contract: {0} config not found error")]
+    PoolContractConfigNotFoundError(String),
+    #[error("convert contract address error: {0}")]
+    ConvertContractAddressError(String),
+    #[error("roller env private key not set error")]
+    RollerEnvPrivateKeyNotSetError,
+    #[error("roller env token price api key not set error")]
+    RollerEnvTokenPriceApiKeyNotSetError,
+    #[error("rollup size: {0} error")]
+    RollupSizeError(usize),
+    #[error("current gas price too high: {0}")]
+    CurrentGasPriceTooHighError(String),
+    #[error("circuits type: {0} not found error")]
+    CircuitNotFoundError(i32),
+    #[error("invalid rollup transaction call data")]
+    InvalidTransactionCallDataError,
+    #[error("commitment rollup fee is none")]
+    CommitmentRollupFeeError,
+    #[error("roller internal error: {0}")]
+    RollerInternalError(String),
     #[error(transparent)]
-    ConfigError(#[from] ConfigError),
-    #[error(transparent)]
-    SerdeJsonError(#[from] SerdeJsonError),
-    #[error("log level error {0}")]
-    InitLogError(String),
-    #[error("load {0} config error")]
-    LoadConfigError(String),
-    #[error("evn {0} not config")]
-    EnvNotConfig(String),
-    #[error("commitment queue slow")]
-    CommitmentQueueSlow,
-    #[error("provider not exist {0}")]
-    NoProvider(String),
-    #[error("indexer not exist")]
-    NoIndexer,
-    #[error("chain explorer not exist")]
-    NoChainExplorer,
-    #[error("circuits not exist")]
-    CircuitNotFound,
-    #[error("invalid commitment hash")]
-    InvalidCommitmentHash,
-    #[error("invalid event logs {0}")]
-    InvalidEventLogs(String),
-    #[error("invalid call data {0}")]
-    InvalidCallData(String),
-    #[error("rpc call error {0}")]
-    RpcCallError(String),
-    #[error("contract call error {0}")]
-    ContractCallError(String),
-    #[error(transparent)]
-    AbiError(#[from] AbiError),
+    LogError(#[from] LogError),
     #[error(transparent)]
     DatabaseError(#[from] StorageError),
     #[error(transparent)]
+    WalletError(#[from] WalletError),
+    #[error(transparent)]
     ProviderError(#[from] ProviderError),
     #[error(transparent)]
-    TokenPriceError(#[from] TokenPriceError),
+    DataLoaderError(#[from] DataLoaderError),
     #[error(transparent)]
-    TxManagerError(#[from] TxManagerError),
+    HandlerError(#[from] HandlerError),
+    #[error(transparent)]
+    TokenPriceError(#[from] PriceMiddlewareError),
+    #[error(transparent)]
+    TxManagerError(#[from] TransactionMiddlewareError),
     #[error(transparent)]
     MerkleTreeError(#[from] MerkleTreeError),
     #[error(transparent)]
     ProtocolError(#[from] ProtocolError),
     #[error(transparent)]
-    JoinError(#[from] JoinError),
+    SchedulerError(#[from] SchedulerError),
     #[error(transparent)]
     AnyhowError(#[from] AnyhowError),
-    #[error(transparent)]
-    ReqwestError(#[from] ReqwestError),
-    #[error("explorer error {0}")]
-    ExplorerError(String),
-    #[error("commitment missing")]
-    CommitmentMissing,
-    #[error("new runtime error {0}")]
-    RuntimeError(String),
 }

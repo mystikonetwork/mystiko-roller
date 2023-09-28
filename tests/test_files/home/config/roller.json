@@ -1,0 +1,202 @@
+{
+  "log_level": "info",
+  "extern_logging_level": "info",
+  "chain_id": 1,
+  "scheduler": {
+    "schedule_interval_ms": 120000
+  },
+  "loader": {
+    "config": {
+      "fetchers": {
+        "0": "FETCHER_TYPE_PACKER",
+        "1": "FETCHER_TYPE_INDEXER",
+        "2": "FETCHER_TYPE_ETHERSCAN",
+        "3": "FETCHER_TYPE_PROVIDER"
+      },
+      "validators": {
+        "0": "VALIDATOR_TYPE_RULE"
+      },
+      "fetcher_config": {
+        "etherscan": {
+          "chains": {
+            "1": {
+              "api_key": ""
+            }
+          }
+        },
+        "provider": {
+          "chains": {
+            "1": {
+              "delay_num_blocks": "60"
+            },
+            "56": {
+              "delay_num_blocks": "60"
+            },
+            "137": {
+              "delay_num_blocks": "60"
+            },
+            "8453": {
+              "delay_num_blocks": "60"
+            },
+            "5": {
+              "delay_num_blocks": "60"
+            },
+            "97": {
+              "delay_num_blocks": "60"
+            },
+            "1287": {
+              "delay_num_blocks": "60"
+            },
+            "4002": {
+              "delay_num_blocks": "60"
+            },
+            "43113": {
+              "delay_num_blocks": "60"
+            },
+            "80001": {
+              "delay_num_blocks": "60"
+            },
+            "84531": {
+              "delay_num_blocks": "60"
+            }
+          }
+        }
+      },
+      "validator_config": {
+        "rule": {
+          "checkers": {
+            "0": "RULE_VALIDATOR_CHECKER_TYPE_INTEGRITY",
+            "1": "RULE_VALIDATOR_CHECKER_TYPE_SEQUENCE",
+            "2": "RULE_VALIDATOR_CHECKER_TYPE_COUNTER"
+          }
+        }
+      }
+    }
+  },
+  "rollup": {
+    "merkle_tree_height": 20,
+    "chains": {
+      "1": {
+        "max_gas_price": 100000000000,
+        "force_rollup_block_count": 60,
+        "gas_cost": {
+          "1": 331000,
+          "2": 336000,
+          "4": 340000,
+          "8": 360000,
+          "16": 410000
+        }
+      },
+      "56": {
+        "max_gas_price": 20000000000,
+        "force_rollup_block_count": 120,
+        "gas_cost": {
+          "1": 331000,
+          "2": 336000,
+          "4": 340000,
+          "8": 360000,
+          "16": 410000
+        }
+      },
+      "137": {
+        "max_gas_price": 1000000000000,
+        "force_rollup_block_count": 120,
+        "gas_cost": {
+          "1": 331000,
+          "2": 336000,
+          "4": 340000,
+          "8": 360000,
+          "16": 410000
+        }
+      },
+      "8453": {
+        "max_gas_price": 10000000000,
+        "force_rollup_block_count": 120,
+        "gas_cost": {
+          "1": 331000,
+          "2": 336000,
+          "4": 340000,
+          "8": 360000,
+          "16": 410000
+        }
+      },
+      "5": {
+        "max_gas_price": 100000000000,
+        "force_rollup_block_count": 60,
+        "gas_cost": {
+          "1": 331000,
+          "2": 336000,
+          "4": 340000,
+          "8": 360000,
+          "16": 410000
+        }
+      },
+      "97": {
+        "max_gas_price": 100000000000,
+        "force_rollup_block_count": 120,
+        "gas_cost": {
+          "1": 331000,
+          "2": 336000,
+          "4": 340000,
+          "8": 360000,
+          "16": 410000
+        }
+      },
+      "1287": {
+        "max_gas_price": 100000000000,
+        "force_rollup_block_count": 120,
+        "gas_cost": {
+          "1": 331000,
+          "2": 336000,
+          "4": 340000,
+          "8": 360000,
+          "16": 410000
+        }
+      },
+      "4002": {
+        "max_gas_price": 100000000000,
+        "force_rollup_block_count": 120,
+        "gas_cost": {
+          "1": 331000,
+          "2": 336000,
+          "4": 340000,
+          "8": 360000,
+          "16": 410000
+        }
+      },
+      "43113": {
+        "max_gas_price": 100000000000,
+        "force_rollup_block_count": 120,
+        "gas_cost": {
+          "1": 331000,
+          "2": 336000,
+          "4": 340000,
+          "8": 360000,
+          "16": 410000
+        }
+      },
+      "80001": {
+        "max_gas_price": 100000000000,
+        "force_rollup_block_count": 120,
+        "gas_cost": {
+          "1": 331000,
+          "2": 336000,
+          "4": 340000,
+          "8": 360000,
+          "16": 410000
+        }
+      },
+      "84531": {
+        "max_gas_price": 100000000000,
+        "force_rollup_block_count": 120,
+        "gas_cost": {
+          "1": 320000,
+          "2": 336000,
+          "4": 340000,
+          "8": 360000,
+          "16": 410000
+        }
+      }
+    }
+  }
+}

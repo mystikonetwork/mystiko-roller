@@ -1,0 +1,21 @@
+{
+  "chains": {
+    "137": {
+      "min_priority_fee_per_gas": 30000000000
+    },
+    "8453": {
+      "max_priority_fee_per_gas": 10000000,
+      "min_priority_fee_per_gas": 1000000
+    },
+    "250": {
+      "force_gas_price": true
+    },
+    "4002": {
+      "force_gas_price": true
+    },
+    "84531": {
+      "min_priority_fee_per_gas": 100000000,
+      "max_priority_fee_per_gas": 200000000
+    }
+  }
+}

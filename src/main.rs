@@ -1,9 +1,19 @@
-extern crate mystiko_roller;
-extern crate tracing;
-
-use mystiko_roller::roller::run_roller;
+use mystiko_roller::scheduler::schedule::run;
 
 #[tokio::main]
 async fn main() {
-    run_roller().await;
+    let result = run().await;
+    if result.is_err() {
+        println!("roller run meet error {:?}", result.err());
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_main() {
+        main();
+    }
 }

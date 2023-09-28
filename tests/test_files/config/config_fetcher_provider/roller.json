@@ -1,0 +1,29 @@
+{
+  "log_level": "info",
+  "extern_logging_level": "info",
+  "chain_id": 1,
+  "check_interval_secs": 120,
+  "loader": {
+    "config": {
+      "fetchers": {
+        "0": "FETCHER_TYPE_PROVIDER"
+      },
+      "validators": {
+        "0": "VALIDATOR_TYPE_RULE"
+      },
+      "validatorConfig": {
+        "rule": {
+          "checkers": {
+            "1": "RULE_VALIDATOR_CHECKER_TYPE_SEQUENCE",
+            "0": "RULE_VALIDATOR_CHECKER_TYPE_INTEGRITY",
+            "2": "RULE_VALIDATOR_CHECKER_TYPE_COUNTER"
+          }
+        }
+      }
+    }
+  },
+  "rollup": {
+    "merkle_tree_height": 20,
+    "chains": {}
+  }
+}
