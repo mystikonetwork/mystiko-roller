@@ -6,13 +6,16 @@ use crate::roller::types::{RollupPlanData, RollupProofData, MAX_ROLLUP_BLOCK};
 use ethers_core::types::U256;
 use ethers_providers::Middleware;
 use log::{debug, info, warn};
+use mystiko_abi::commitment_pool::CommitmentPool;
 use mystiko_crypto::merkle_tree::MerkleTree;
 use mystiko_dataloader::handler::{CommitmentQueryOption, DataHandler};
 use mystiko_downloader::DownloaderBuilder;
 use mystiko_protocol::rollup::{Rollup, RollupProof};
 use mystiko_protos::data::v1::{Commitment, CommitmentStatus};
+use mystiko_utils::address::ethers_address_from_string;
 use mystiko_utils::convert::bytes_to_biguint;
 use num_bigint::BigUint;
+use std::ops::Mul;
 use std::sync::Arc;
 use typed_builder::TypedBuilder;
 
@@ -24,20 +27,43 @@ pub struct RollupTxBuilder {
 impl RollupTxBuilder {
     pub async fn build(&self, pool_address: String) -> RollerResult<Option<RollupProofData>> {
         debug!("build rollup transaction");
-        let mut option = CommitmentQueryOption::builder()
+        let option = CommitmentQueryOption::builder()
             .chain_id(self.context.config.chain_id)
             .contract_address(pool_address.clone())
             .end_block(MAX_ROLLUP_BLOCK)
-            .status(CommitmentStatus::Included)
+            .status(CommitmentStatus::Queued)
             .build();
-        let included = self.context.handler.count_commitments(&option).await?.result;
-        option.status = Some(CommitmentStatus::Queued);
-        let queued = self.context.handler.query_commitments(&option).await?;
+        let queued: mystiko_dataloader::handler::QueryResult<Vec<Commitment>> =
+            self.context.handler.query_commitments(&option).await?;
         if !queued.result.is_empty() {
-            Ok(self.build_rollup_plan(&pool_address, queued.result, included).await?)
-        } else {
-            Ok(None)
+            let address = ethers_address_from_string(pool_address.clone())
+                .map_err(|_| RollerError::ConvertContractAddressError(pool_address.clone()))?;
+            let pool = CommitmentPool::new(address, self.context.provider.clone());
+            let included_count = pool
+                .get_commitment_included_count()
+                .await
+                .map_err(|e| {
+                    RollerError::ContractCallError("get_commitment_included_count".to_string(), e.to_string())
+                })?
+                .as_u64();
+            let mut cms = Vec::new();
+            for c in &queued.result {
+                if let Some(index) = c.leaf_index {
+                    if index >= included_count {
+                        cms.push(c.clone());
+                    }
+                } else {
+                    return Err(RollerError::RollerInternalError(
+                        "handler commitment leaf_index is none".to_string(),
+                    ));
+                }
+            }
+            if !cms.is_empty() {
+                return self.build_rollup_plan(&pool_address, cms, included_count).await;
+            }
         }
+
+        Ok(None)
     }
 
     async fn build_rollup_plan(
@@ -62,18 +88,24 @@ impl RollupTxBuilder {
             .take(rollup_size)
             .map(|c| bytes_to_biguint(&c.commitment_hash))
             .collect::<Vec<_>>();
-        let proof = self.generate_proof(pool_address, rollup_cms).await?;
+        let proof = self.generate_proof(pool_address, rollup_cms, included).await?;
         Ok(Some(
             RollupProofData::builder()
                 .pool_address(pool_address.to_string())
                 .rollup_size(rollup_size)
+                .next_rollup(plan.sizes.len() > 1)
                 .max_gas_price(max_gas_price)
                 .proof(proof)
                 .build(),
         ))
     }
 
-    pub async fn generate_proof(&self, pool_address: &str, new_leaves: Vec<BigUint>) -> RollerResult<RollupProof> {
+    pub async fn generate_proof(
+        &self,
+        pool_address: &str,
+        new_leaves: Vec<BigUint>,
+        included: u64,
+    ) -> RollerResult<RollupProof> {
         let rollup_size = new_leaves.len();
         let circuits_type = circuit_type_from_rollup_size(rollup_size)?;
 
@@ -101,7 +133,7 @@ impl RollupTxBuilder {
             .read_bytes_failover(circuits_cfg.proving_key_file(), None)
             .await?;
 
-        let mut tree = self.build_merkle_tree(pool_address).await?;
+        let mut tree = self.build_merkle_tree(pool_address, included).await?;
         let mut rollup = Rollup::new(&mut tree, new_leaves, program, abi, proving_key);
         Ok(rollup.prove()?)
     }
@@ -110,9 +142,10 @@ impl RollupTxBuilder {
         let plan_max = self.calc_max_gas_price_by_plan(plan).await?;
         let config_max = U256::from(self.context.config.max_gas_price());
         let provider_current = self.context.tx.gas_price(&self.context.provider).await?;
-        debug!("plan max gas price={:?}", plan_max);
-        debug!("provider current gas price={:?}", provider_current);
-        debug!("config max gas price={:?}", config_max);
+        info!(
+            "plan max gas price={:?} provider current gas price={:?} config max gas price={:?} ",
+            plan_max, provider_current, config_max
+        );
         match plan_max.cmp(&config_max) {
             std::cmp::Ordering::Greater => self.check_plan_gas_price_greater(&plan_max, &provider_current),
             std::cmp::Ordering::Less | std::cmp::Ordering::Equal => {
@@ -131,7 +164,7 @@ impl RollupTxBuilder {
             return Err(RollerError::CurrentGasPriceTooHighError(provider_current.to_string()));
         }
 
-        self.choose_gas_price(plan_max, provider_current)
+        self.choose_gas_price(*plan_max, *provider_current)
     }
 
     async fn check_plan_gas_price_less(
@@ -157,7 +190,7 @@ impl RollupTxBuilder {
             }
 
             info!("do force rollup");
-            return self.choose_gas_price(config_max, provider_current);
+            return self.choose_gas_price(*config_max, *provider_current);
         } else if plan_max < provider_current {
             warn!(
                 "gas price too high plan max gas price={:?} provider current gas price={:?}",
@@ -166,14 +199,14 @@ impl RollupTxBuilder {
             return Err(RollerError::CurrentGasPriceTooHighError(provider_current.to_string()));
         }
 
-        self.choose_gas_price(plan_max, provider_current)
+        self.choose_gas_price(*plan_max, *provider_current)
     }
 
-    fn choose_gas_price(&self, max_price: &U256, provider_current: &U256) -> RollerResult<U256> {
+    fn choose_gas_price(&self, max_price: U256, provider_current: U256) -> RollerResult<U256> {
         if self.context.tx.support_1559() {
-            Ok(*max_price)
+            Ok(std::cmp::min(provider_current.mul(2), max_price))
         } else {
-            Ok(*provider_current)
+            Ok(provider_current)
         }
     }
 
@@ -195,7 +228,6 @@ impl RollupTxBuilder {
             .ok_or(RollerError::PoolContractConfigNotFoundError(plan.pool_address.clone()))?;
         let asset_symbol = chain_cfg.asset_symbol().to_string();
         let asset_decimals = chain_cfg.asset_decimals();
-        // todo use read lock first?
         let swap_amount = self
             .context
             .price
@@ -210,16 +242,23 @@ impl RollupTxBuilder {
         Ok(swap_amount / total_gas_cost)
     }
 
-    async fn build_merkle_tree(&self, pool_address: &str) -> RollerResult<MerkleTree> {
+    async fn build_merkle_tree(&self, pool_address: &str, included: u64) -> RollerResult<MerkleTree> {
         let option = CommitmentQueryOption::builder()
             .chain_id(self.context.config.chain_id)
             .contract_address(pool_address.to_string())
             .end_block(MAX_ROLLUP_BLOCK)
-            .status(CommitmentStatus::Included)
             .build();
         let cms = self.context.handler.query_commitments(&option).await?.result;
+        if cms.len() < included as usize {
+            return Err(RollerError::RollerInternalError(format!(
+                "handler commitments len={:?} less than included count={:?}",
+                cms.len(),
+                included
+            )));
+        }
         let elements = cms
             .iter()
+            .take(included as usize)
             .map(|c| bytes_to_biguint(&c.commitment_hash))
             .collect::<Vec<_>>();
         Ok(MerkleTree::new(

@@ -61,7 +61,9 @@ pub fn calc_total_rollup_fee(cms: &[Commitment], total_plan: usize) -> RollerRes
     cms.iter().take(total_plan).try_fold(U256::zero(), |acc, cm| {
         cm.rollup_fee
             .as_ref()
-            .ok_or(RollerError::CommitmentRollupFeeError)
+            .ok_or(RollerError::RollerInternalError(
+                "handler commitment rollup fee is none".to_string(),
+            ))
             .map(|fee| acc + bytes_to_u256(fee))
     })
 }

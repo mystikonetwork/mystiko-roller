@@ -109,7 +109,12 @@
           "assetAddress": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
         }
       ],
-      "packerGranularities": [2000, 4000, 8000, 16000]
+      "packerGranularities": [
+        2000,
+        4000,
+        8000,
+        16000
+      ]
     },
     {
       "name": "BNB Chain",
@@ -261,7 +266,12 @@
           "assetAddress": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"
         }
       ],
-      "packerGranularities": [2000, 4000, 8000, 16000]
+      "packerGranularities": [
+        2000,
+        4000,
+        8000,
+        16000
+      ]
     },
     {
       "name": "Polygon",
@@ -450,7 +460,12 @@
           "assetAddress": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"
         }
       ],
-      "packerGranularities": [2000, 4000, 8000, 16000]
+      "packerGranularities": [
+        2000,
+        4000,
+        8000,
+        16000
+      ]
     }
   ],
   "bridges": [],
@@ -667,9 +682,6 @@
       ]
     }
   ],
-  "indexer": {
-    "url": "http://127.0.0.1:12345"
-  },
   "countryBlacklist": [
     "AF",
     "DZ",

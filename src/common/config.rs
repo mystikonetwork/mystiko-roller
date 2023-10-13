@@ -12,8 +12,9 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::PathBuf;
 use typed_builder::TypedBuilder;
+use validator::Validate;
 
-#[derive(Debug, Clone, Deserialize, Serialize, TypedBuilder)]
+#[derive(Debug, Clone, Validate, Deserialize, Serialize, TypedBuilder)]
 #[builder(field_defaults(setter(into)))]
 pub struct RollerConfig {
     #[serde(default = "default_logging_level")]
@@ -77,7 +78,7 @@ impl RollerConfig {
     }
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, TypedBuilder)]
+#[derive(Debug, Clone, Validate, Deserialize, Serialize, TypedBuilder)]
 #[builder(field_defaults(setter(into)))]
 pub struct RollerSchedulerConfig {
     #[serde(default = "default_schedule_interval_ms")]
@@ -95,7 +96,7 @@ impl Default for RollerSchedulerConfig {
     }
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, TypedBuilder)]
+#[derive(Debug, Clone, Validate, Deserialize, Serialize, TypedBuilder)]
 #[builder(field_defaults(setter(into)))]
 pub struct RollerLoaderConfig {
     #[serde(default)]
@@ -106,7 +107,6 @@ pub struct RollerLoaderConfig {
 impl RollerLoaderConfig {
     pub fn set_default_roller_fetcher(&mut self) {
         self.config.fetchers.insert(0, FetcherType::Packer as i32);
-        self.config.fetchers.insert(1, FetcherType::Indexer as i32);
         self.config.fetchers.insert(2, FetcherType::Etherscan as i32);
         self.config.fetchers.insert(3, FetcherType::Provider as i32);
     }
@@ -131,9 +131,14 @@ impl Default for RollerLoaderConfig {
     }
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, TypedBuilder)]
+#[derive(Debug, Clone, Validate, Deserialize, Serialize, TypedBuilder)]
 #[builder(field_defaults(setter(into)))]
 pub struct RollerRollupConfig {
+    #[serde(default = "default_max_rollup_one_round")]
+    #[builder(default = default_max_rollup_one_round())]
+    #[validate(range(min = 1))]
+    pub max_rollup_one_round: u32,
+
     #[serde(default = "default_merkle_tree_height")]
     #[builder(default = default_merkle_tree_height())]
     pub merkle_tree_height: u32,
@@ -149,7 +154,7 @@ impl Default for RollerRollupConfig {
     }
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, TypedBuilder)]
+#[derive(Debug, Clone, Validate, Deserialize, Serialize, TypedBuilder)]
 #[builder(field_defaults(setter(into)))]
 pub struct RollerRollupChainConfig {
     #[serde(default = "default_max_gas_price")]
@@ -242,6 +247,10 @@ fn default_status_server_port() -> u16 {
 
 fn default_merkle_tree_height() -> u32 {
     20
+}
+
+fn default_max_rollup_one_round() -> u32 {
+    10
 }
 
 fn default_max_gas_price() -> u64 {

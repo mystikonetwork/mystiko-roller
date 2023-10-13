@@ -58,5 +58,5 @@ async fn test_scheduler_abort_policy() {
             .into(),
         ),
     )));
-    assert!(result);
+    assert!(!result);
 }

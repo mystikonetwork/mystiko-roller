@@ -28,7 +28,7 @@ async fn test_default_roller_config() {
 async fn test_default_roller_env_config() {
     let env_config = create_mock_env_config();
     let roller_config = create_roller_config(&env_config).unwrap();
-    assert_eq!(roller_config.loader.config.fetchers.len(), 4);
+    assert_eq!(roller_config.loader.config.fetchers.len(), 3);
     assert!(roller_config
         .loader
         .config
@@ -49,7 +49,7 @@ async fn test_default_roller_env_config() {
     let mut env_config = create_mock_env_config();
     env_config.config_env_prefix = "ROLLER_TEST_CONFIG".to_string();
     let roller_config = create_roller_config(&env_config).unwrap();
-    assert_eq!(roller_config.loader.config.fetchers.len(), 4);
+    assert_eq!(roller_config.loader.config.fetchers.len(), 3);
     assert_eq!(
         roller_config
             .loader

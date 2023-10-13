@@ -36,6 +36,7 @@ async fn test_sender_rollup_contract_address_error() {
         .rollup_size(1_usize)
         .max_gas_price(gas_price)
         .proof(data.clone())
+        .next_rollup(false)
         .build();
     let result = sender.send(proof_data).await;
     assert!(matches!(
@@ -76,6 +77,7 @@ async fn test_sender_rollup_success() {
         .rollup_size(1_usize)
         .max_gas_price(gas_price)
         .proof(data)
+        .next_rollup(false)
         .build();
     let result = sender.send(proof_data.clone()).await;
     assert!(result.is_ok());
@@ -114,6 +116,7 @@ async fn test_sender_rollup_provider_error() {
         .rollup_size(1_usize)
         .max_gas_price(gas_price)
         .proof(data)
+        .next_rollup(false)
         .build();
     let result = sender.send(proof_data.clone()).await;
     assert!(matches!(result.err().unwrap(), RollerError::ProviderError(_)));

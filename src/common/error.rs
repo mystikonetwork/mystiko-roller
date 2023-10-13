@@ -24,6 +24,8 @@ pub enum RollerError {
     RollerEnvPrivateKeyNotSetError,
     #[error("roller env token price api key not set error")]
     RollerEnvTokenPriceApiKeyNotSetError,
+    #[error("call contract func={0} meet error: {1}")]
+    ContractCallError(String, String),
     #[error("rollup size: {0} error")]
     RollupSizeError(usize),
     #[error("current gas price too high: {0}")]
@@ -32,8 +34,6 @@ pub enum RollerError {
     CircuitNotFoundError(i32),
     #[error("invalid rollup transaction call data")]
     InvalidTransactionCallDataError,
-    #[error("commitment rollup fee is none")]
-    CommitmentRollupFeeError,
     #[error("roller internal error: {0}")]
     RollerInternalError(String),
     #[error(transparent)]

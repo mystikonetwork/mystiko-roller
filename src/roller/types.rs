@@ -20,6 +20,7 @@ pub struct RollupProofData {
     pub rollup_size: usize,
     pub max_gas_price: U256,
     pub proof: RollupProof,
+    pub next_rollup: bool,
 }
 
 #[derive(Debug, TypedBuilder)]

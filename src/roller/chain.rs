@@ -1,41 +1,62 @@
-use crate::common::RollerResult;
+use crate::common::{RollerError, RollerResult};
 use crate::context::RollerContext;
 use crate::roller::builder::RollupTxBuilder;
-use crate::roller::pool::RollerPoolContracts;
 use crate::roller::sender::RollupTxSender;
 use crate::roller::types::RollupProofData;
 use log::{error, info};
 use std::sync::Arc;
 
 pub struct ChainRoller {
-    pools: RollerPoolContracts,
+    context: Arc<RollerContext>,
+    pool_contracts: Vec<String>,
     tx_builder: Arc<RollupTxBuilder>,
     tx_sender: Arc<RollupTxSender>,
 }
 
 impl ChainRoller {
     pub async fn new(context: Arc<RollerContext>) -> RollerResult<ChainRoller> {
-        let pools = RollerPoolContracts::new(context.clone()).await?;
+        let chain_config = context
+            .mystiko_config
+            .find_chain(context.config.chain_id)
+            .ok_or(RollerError::ChainConfigNotFoundError(context.config.chain_id))?;
+        let pool_contracts: Vec<String> = chain_config
+            .pool_contracts()
+            .iter()
+            .map(|pool| pool.address().to_string())
+            .collect();
         let builder = RollupTxBuilder::builder().context(context.clone()).build();
         let sender = RollupTxSender::builder().context(context.clone()).build();
         Ok(ChainRoller {
-            pools,
+            context,
+            pool_contracts,
             tx_builder: Arc::new(builder),
             tx_sender: Arc::new(sender),
         })
     }
 
     pub async fn run(&self) -> RollerResult<()> {
-        let txs = self.build_rollup_transactions().await?;
-        if !txs.is_empty() {
-            self.send_rollup_transactions(txs).await?;
+        let mut pools = self.pool_contracts.clone();
+        for _ in 0..self.context.config.rollup.max_rollup_one_round {
+            if pools.is_empty() {
+                break;
+            }
+            pools = self.run_once(&pools).await?;
         }
         Ok(())
     }
 
-    pub async fn build_rollup_transactions(&self) -> RollerResult<Vec<RollupProofData>> {
+    pub async fn run_once(&self, pools: &[String]) -> RollerResult<Vec<String>> {
+        let txs = self.build_rollup_transactions(pools).await?;
+        if !txs.is_empty() {
+            self.send_rollup_transactions(txs).await
+        } else {
+            Ok(vec![])
+        }
+    }
+
+    pub async fn build_rollup_transactions(&self, pools: &[String]) -> RollerResult<Vec<RollupProofData>> {
         let mut txs = vec![];
-        for address in self.pools.addresses().await?.into_iter() {
+        for address in pools.iter() {
             let result = self.tx_builder.build(address.clone()).await;
             match result {
                 Ok(tx) => {
@@ -54,8 +75,8 @@ impl ChainRoller {
         Ok(txs)
     }
 
-    pub async fn send_rollup_transactions(&self, txs: Vec<RollupProofData>) -> RollerResult<()> {
-        let mut rollup_data = vec![];
+    pub async fn send_rollup_transactions(&self, txs: Vec<RollupProofData>) -> RollerResult<Vec<String>> {
+        let mut next_rollup_pools = vec![];
         for tx in txs.into_iter() {
             let result = self.tx_sender.send(tx.clone()).await;
             match result {
@@ -64,7 +85,10 @@ impl ChainRoller {
                         "pool contract[address={:?}] send pool rollup transaction success {:?}",
                         tx.pool_address, date
                     );
-                    rollup_data.push(date);
+
+                    if tx.next_rollup {
+                        next_rollup_pools.push(tx.pool_address.clone());
+                    }
                 }
                 Err(e) => {
                     error!(
@@ -76,7 +100,6 @@ impl ChainRoller {
             }
         }
 
-        self.pools.update_latest_rollup_block(&rollup_data).await;
-        Ok(())
+        Ok(next_rollup_pools)
     }
 }

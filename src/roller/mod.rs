@@ -1,6 +1,5 @@
 mod builder;
 mod chain;
-mod pool;
 mod sender;
 mod types;
 

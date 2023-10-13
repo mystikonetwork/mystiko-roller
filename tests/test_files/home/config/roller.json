@@ -9,7 +9,6 @@
     "config": {
       "fetchers": {
         "0": "FETCHER_TYPE_PACKER",
-        "1": "FETCHER_TYPE_INDEXER",
         "2": "FETCHER_TYPE_ETHERSCAN",
         "3": "FETCHER_TYPE_PROVIDER"
       },
