@@ -25,8 +25,8 @@ pub struct RollerConfig {
     #[builder(default = default_logging_level())]
     pub extern_logging_level: String,
 
-    #[serde(default = "default_check_chain_id")]
-    #[builder(default = default_check_chain_id())]
+    #[serde(default = "default_chain_id")]
+    #[builder(default = default_chain_id())]
     pub chain_id: u64,
 
     #[builder(default)]
@@ -85,6 +85,10 @@ pub struct RollerSchedulerConfig {
     #[builder(default = default_schedule_interval_ms())]
     pub schedule_interval_ms: u64,
 
+    #[serde(default)]
+    #[builder(default)]
+    pub schedule_count: Option<u64>,
+
     #[serde(default = "default_status_server_port")]
     #[builder(default = default_status_server_port())]
     pub status_server_port: u16,
@@ -134,6 +138,11 @@ impl Default for RollerLoaderConfig {
 #[derive(Debug, Clone, Validate, Deserialize, Serialize, TypedBuilder)]
 #[builder(field_defaults(setter(into)))]
 pub struct RollerRollupConfig {
+    #[serde(default = "default_max_rollup_size")]
+    #[builder(default = default_max_rollup_size())]
+    #[validate(range(max = 16))]
+    pub max_rollup_size: usize,
+
     #[serde(default = "default_max_rollup_one_round")]
     #[builder(default = default_max_rollup_one_round())]
     #[validate(range(min = 1))]
@@ -160,9 +169,11 @@ pub struct RollerRollupChainConfig {
     #[serde(default = "default_max_gas_price")]
     #[builder(default = default_max_gas_price())]
     pub max_gas_price: u64,
+
     #[serde(default = "default_force_rollup_block_count")]
     #[builder(default = default_force_rollup_block_count())]
     pub force_rollup_block_count: u64,
+
     #[serde(default = "default_rollup_gas_cost")]
     #[builder(default = default_rollup_gas_cost())]
     pub gas_cost: HashMap<usize, u64>,
@@ -233,7 +244,7 @@ fn default_logging_level() -> String {
     "info".to_string()
 }
 
-fn default_check_chain_id() -> u64 {
+fn default_chain_id() -> u64 {
     1
 }
 
@@ -251,6 +262,10 @@ fn default_merkle_tree_height() -> u32 {
 
 fn default_max_rollup_one_round() -> u32 {
     10
+}
+
+fn default_max_rollup_size() -> usize {
+    2_usize
 }
 
 fn default_max_gas_price() -> u64 {

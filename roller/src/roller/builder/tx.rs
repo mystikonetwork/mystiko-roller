@@ -72,7 +72,11 @@ impl RollupTxBuilder {
         queued_cms: Vec<Commitment>,
         included: u64,
     ) -> RollerResult<Option<RollupProofData>> {
-        let (total_size_plan, sizes_plan) = calc_rollup_size_queue(included as usize, queued_cms.len())?;
+        let (total_size_plan, sizes_plan) = calc_rollup_size_queue(
+            included as usize,
+            queued_cms.len(),
+            self.context.config.rollup.max_rollup_size,
+        )?;
         info!("build rollup plan {:?}", sizes_plan);
         let plan = RollupPlanData::builder()
             .pool_address(pool_address.to_string())

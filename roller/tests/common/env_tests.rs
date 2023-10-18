@@ -7,11 +7,11 @@ use std::env;
 #[tokio::test]
 async fn test_load_roller_run_mod() {
     let run_mod = load_roller_run_mod();
-    assert_eq!(run_mod.unwrap().as_str(), "testnet");
-    env::set_var("MYSTIKO_ROLLER_RUN_MOD", "mainnet");
-    let run_mod = load_roller_run_mod();
     assert_eq!(run_mod.unwrap().as_str(), "mainnet");
     env::set_var("MYSTIKO_ROLLER_RUN_MOD", "testnet");
+    let run_mod = load_roller_run_mod();
+    assert_eq!(run_mod.unwrap().as_str(), "testnet");
+    env::remove_var("MYSTIKO_ROLLER_RUN_MOD");
 }
 
 #[tokio::test]

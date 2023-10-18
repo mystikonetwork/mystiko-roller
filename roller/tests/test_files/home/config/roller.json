@@ -8,21 +8,14 @@
   "loader": {
     "config": {
       "fetchers": {
-        "0": "FETCHER_TYPE_PACKER",
-        "2": "FETCHER_TYPE_ETHERSCAN",
-        "3": "FETCHER_TYPE_PROVIDER"
+        "1": "FETCHER_TYPE_PACKER",
+        "3": "FETCHER_TYPE_ETHERSCAN",
+        "4": "FETCHER_TYPE_PROVIDER"
       },
       "validators": {
         "0": "VALIDATOR_TYPE_RULE"
       },
       "fetcher_config": {
-        "etherscan": {
-          "chains": {
-            "1": {
-              "api_key": ""
-            }
-          }
-        },
         "provider": {
           "chains": {
             "1": {

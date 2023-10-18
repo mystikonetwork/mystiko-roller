@@ -1,9 +1,10 @@
 use crate::common::{RollerError, RollerResult};
-use crate::roller::types::MAX_ROLLUP_SIZE;
 use ethers_core::types::U256;
 use mystiko_protos::data::v1::Commitment;
 use mystiko_types::CircuitType;
 use mystiko_utils::convert::bytes_to_u256;
+use std::cmp::min;
+
 pub fn circuit_type_from_rollup_size(rollup_size: usize) -> RollerResult<CircuitType> {
     match rollup_size {
         1 => Ok(CircuitType::Rollup1),
@@ -15,17 +16,23 @@ pub fn circuit_type_from_rollup_size(rollup_size: usize) -> RollerResult<Circuit
     }
 }
 
-fn calc_rollup_size(included: usize, queued: usize) -> usize {
-    match () {
+fn calc_rollup_size(included: usize, queued: usize, max_rollup_size: usize) -> usize {
+    let rollup_size = match () {
         _ if queued >= 16 && included % 16 == 0 => 16,
         _ if queued >= 8 && included % 8 == 0 => 8,
         _ if queued >= 4 && included % 4 == 0 => 4,
         _ if queued >= 2 && included % 2 == 0 => 2,
         _ => 1,
-    }
+    };
+
+    min(rollup_size, max_rollup_size)
 }
 
-pub fn calc_rollup_size_queue(included: usize, queued: usize) -> RollerResult<(usize, Vec<usize>)> {
+pub fn calc_rollup_size_queue(
+    included: usize,
+    queued: usize,
+    max_rollup_size: usize,
+) -> RollerResult<(usize, Vec<usize>)> {
     if queued == 0 {
         return Err(RollerError::RollupSizeError(0));
     }
@@ -38,8 +45,8 @@ pub fn calc_rollup_size_queue(included: usize, queued: usize) -> RollerResult<(u
     let mut rollup_size = 0;
 
     loop {
-        let new_rollup_size = calc_rollup_size(included_count, queued_count);
-        if new_rollup_size < rollup_size || (new_rollup_size == rollup_size && new_rollup_size < MAX_ROLLUP_SIZE) {
+        let new_rollup_size = calc_rollup_size(included_count, queued_count, max_rollup_size);
+        if new_rollup_size < rollup_size || (new_rollup_size == rollup_size && new_rollup_size < max_rollup_size) {
             break;
         }
 
@@ -57,6 +64,7 @@ pub fn calc_rollup_size_queue(included: usize, queued: usize) -> RollerResult<(u
 
     Ok((total_rollup_size, rollup_array))
 }
+
 pub fn calc_total_rollup_fee(cms: &[Commitment], total_plan: usize) -> RollerResult<U256> {
     cms.iter().take(total_plan).try_fold(U256::zero(), |acc, cm| {
         cm.rollup_fee

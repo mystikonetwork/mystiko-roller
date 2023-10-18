@@ -34,18 +34,17 @@ pub struct RollerContext {
 pub async fn create_roller_context(env_config: &RollerEnvConfig) -> RollerResult<RollerContext> {
     let config = create_roller_config(env_config)?;
     let chain_id = config.chain_id;
-
     roller_trace_init(&config)?;
+
+    info!("start roller with chain id={:?}", chain_id);
     let mystiko_config = Arc::new(create_mystiko_config(env_config).await?);
 
     let handler = RollerDatabaseHandler::new(env_config, mystiko_config.clone()).await?;
     handler.migrate().await?;
     handler.initialize().await?;
-
     let handler = Arc::new(Box::new(handler) as Box<RollerDataHandler>);
     let providers: RollerProviderPool = mystiko_config.clone().into();
     let provider = providers.get_provider(chain_id).await?;
-
     let tx_manager_cfg = create_tx_manager_config(env_config)?;
     let local_wallet = LocalWallet::from_str(&env_config.private_key)?.with_chain_id(chain_id);
     info!("local wallet address is {:?}", local_wallet.address());
@@ -56,7 +55,6 @@ pub async fn create_roller_context(env_config: &RollerEnvConfig) -> RollerResult
         .build();
     let tx_manager = builder.build::<JsonProviderWrapper>(&provider).await?;
     let tx_manager = Arc::new(tx_manager) as Arc<RollerTransactionMiddleware>;
-
     let token_price_cfg = create_token_price_config(env_config)?;
     let token_price = TokenPrice::new(&token_price_cfg, &env_config.token_price_api_key)?;
     let token_price = Arc::new(token_price) as Arc<RollerPriceMiddleware>;

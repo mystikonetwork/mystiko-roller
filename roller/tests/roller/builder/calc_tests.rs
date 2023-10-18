@@ -19,7 +19,7 @@ fn test_test_circuit_type_from_rollup_size_32() {
 
 #[tokio::test]
 async fn test_calc_rollup_size_array_err() {
-    let result = calc_rollup_size_queue(1, 0);
+    let result = calc_rollup_size_queue(1, 0, 2);
     assert!(matches!(result.err().unwrap(), RollerError::RollupSizeError(_)));
 }
 
@@ -63,7 +63,7 @@ async fn test_calc_rollup_size_array_0() {
 
     for i in (0..32).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {} {}", i, case.0);
         }
@@ -111,7 +111,7 @@ async fn test_calc_rollup_size_array_1() {
 
     for i in (1..33).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -159,7 +159,7 @@ async fn test_calc_rollup_size_array_2() {
 
     for i in (2..34).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -207,7 +207,7 @@ async fn test_calc_rollup_size_array_3() {
 
     for i in (3..35).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -255,7 +255,7 @@ async fn test_calc_rollup_size_array_4() {
 
     for i in (4..36).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -303,7 +303,7 @@ async fn test_calc_rollup_size_array_5() {
 
     for i in (5..37).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -351,7 +351,7 @@ async fn test_calc_rollup_size_array_6() {
 
     for i in (6..38).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -399,7 +399,7 @@ async fn test_calc_rollup_size_array_7() {
 
     for i in (7..39).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -447,7 +447,7 @@ async fn test_calc_rollup_size_array_8() {
 
     for i in (8..40).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -487,7 +487,7 @@ async fn test_calc_rollup_size_array_9() {
 
     for i in (9..41).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -525,7 +525,7 @@ async fn test_calc_rollup_size_array_10() {
 
     for i in (10..42).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -563,7 +563,7 @@ async fn test_calc_rollup_size_array_11() {
 
     for i in (11..43).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -600,7 +600,7 @@ async fn test_calc_rollup_size_array_12() {
 
     for i in (12..44).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -636,7 +636,7 @@ async fn test_calc_rollup_size_array_13() {
 
     for i in (13..45).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -671,7 +671,7 @@ async fn test_calc_rollup_size_array_14() {
 
     for i in (14..46).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }
@@ -705,7 +705,33 @@ async fn test_calc_rollup_size_array_15() {
 
     for i in (15..47).step_by(16) {
         for case in test_cases.clone() {
-            let result = calc_rollup_size_queue(i, case.0).unwrap();
+            let result = calc_rollup_size_queue(i, case.0, 16_usize).unwrap();
+            let expect = (case.1.iter().sum(), case.1);
+            assert_eq!(result, expect, "Test failed for queued: {}", case.0);
+        }
+    }
+}
+
+#[tokio::test]
+async fn test_calc_rollup_size_array_15_with_max_rollup_size_2() {
+    let test_cases = vec![
+        (1, vec![1]),
+        (2, vec![1]),
+        (3, vec![1, 2]),
+        (4, vec![1, 2]),
+        (5, vec![1, 2, 2]),
+        (6, vec![1, 2, 2]),
+        (7, vec![1, 2, 2, 2]),
+        (8, vec![1, 2, 2, 2]),
+        (9, vec![1, 2, 2, 2, 2]),
+        (10, vec![1, 2, 2, 2, 2]),
+        (11, vec![1, 2, 2, 2, 2, 2]),
+        (12, vec![1, 2, 2, 2, 2, 2]),
+    ];
+
+    for i in (15..47).step_by(16) {
+        for case in test_cases.clone() {
+            let result = calc_rollup_size_queue(i, case.0, 2_usize).unwrap();
             let expect = (case.1.iter().sum(), case.1);
             assert_eq!(result, expect, "Test failed for queued: {}", case.0);
         }

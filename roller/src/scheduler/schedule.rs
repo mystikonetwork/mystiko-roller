@@ -31,6 +31,7 @@ impl RollerScheduler {
         let roller_retry_policy = RollerRetryPolicy::builder().build();
         let options = StartOptions::<RollerError>::builder()
             .interval_ms(self.context.config.scheduler.schedule_interval_ms)
+            .rounds_count(self.context.config.scheduler.schedule_count)
             .retry_policy(Arc::new(
                 Box::new(roller_retry_policy) as Box<dyn RetryPolicy<RollerError>>
             ))

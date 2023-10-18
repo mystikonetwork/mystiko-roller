@@ -30,7 +30,7 @@ impl FromStr for RollerRunMod {
         match s {
             "mainnet" => Ok(RollerRunMod::Mainnet),
             "testnet" => Ok(RollerRunMod::Testnet),
-            _ => Ok(RollerRunMod::Testnet),
+            _ => Ok(RollerRunMod::Mainnet),
         }
     }
 }
@@ -112,7 +112,7 @@ pub fn load_roller_run_mod() -> RollerResult<RollerRunMod> {
     dotenv().ok();
     match env::var(ENV_ROLLER_RUN_MOD) {
         Ok(value) => RollerRunMod::from_str(&value),
-        Err(_) => Ok(RollerRunMod::Testnet),
+        Err(_) => Ok(RollerRunMod::Mainnet),
     }
 }
 
@@ -120,7 +120,7 @@ pub fn load_roller_memory_db() -> bool {
     dotenv().ok();
     match env::var(ENV_ROLLER_MEMORY_DB) {
         Ok(value) => value == "true",
-        Err(_) => false,
+        Err(_) => true,
     }
 }
 

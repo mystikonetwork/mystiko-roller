@@ -3,7 +3,6 @@ use mystiko_protocol::rollup::RollupProof;
 use mystiko_protos::data::v1::Commitment;
 use typed_builder::TypedBuilder;
 
-pub const MAX_ROLLUP_SIZE: usize = 16;
 pub const MAX_ROLLUP_BLOCK: u64 = u64::MAX;
 
 #[derive(Debug, TypedBuilder)]
