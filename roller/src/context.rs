@@ -2,7 +2,7 @@ use crate::common::config::{
     create_mystiko_config, create_roller_config, create_token_price_config, create_tx_manager_config, RollerConfig,
 };
 use crate::common::{
-    roller_trace_init, JsonProviderWrapper, RollerDataHandler, RollerEnvConfig, RollerPriceMiddleware,
+    roller_trace_init, JsonProviderWrapper, RollerDataHandler, RollerEnvConfig, RollerError, RollerPriceMiddleware,
     RollerProviderPool, RollerProviders, RollerResult, RollerTransactionMiddleware,
 };
 use crate::handler::RollerDatabaseHandler;
@@ -14,6 +14,7 @@ use mystiko_ethers::Provider;
 use mystiko_ethers::Providers;
 use mystiko_server_utils::token_price::TokenPrice;
 use mystiko_server_utils::tx_manager::TxManagerBuilder;
+use mystiko_types::TransactionType;
 use std::str::FromStr;
 use std::sync::Arc;
 use typed_builder::TypedBuilder;
@@ -38,6 +39,14 @@ pub async fn create_roller_context(env_config: &RollerEnvConfig) -> RollerResult
 
     info!("start roller with chain id={:?}", chain_id);
     let mystiko_config = Arc::new(create_mystiko_config(env_config).await?);
+    let chain_cfg = mystiko_config
+        .find_chain(chain_id)
+        .ok_or(RollerError::ChainConfigNotFoundError(chain_id))?;
+    let tx_type = match chain_cfg.transaction_type() {
+        TransactionType::Legacy => false,
+        TransactionType::Eip1559 => true,
+        TransactionType::Eip2930 => false,
+    };
 
     let handler = RollerDatabaseHandler::new(env_config, mystiko_config.clone()).await?;
     handler.migrate().await?;
@@ -53,9 +62,9 @@ pub async fn create_roller_context(env_config: &RollerEnvConfig) -> RollerResult
         .config(tx_manager_cfg)
         .wallet(local_wallet)
         .build();
-    let tx_manager = builder.build::<JsonProviderWrapper>(&provider).await?;
+    let tx_manager = builder.build::<JsonProviderWrapper>(Some(tx_type), &provider).await?;
     let tx_manager = Arc::new(tx_manager) as Arc<RollerTransactionMiddleware>;
-    info!("chain support 1559 {:?}", tx_manager.support_1559());
+    info!("chain support 1559 {:?}", tx_manager.tx_eip1559());
     let token_price_cfg = create_token_price_config(env_config)?;
     let token_price = TokenPrice::new(&token_price_cfg, &env_config.token_price_api_key)?;
     let token_price = Arc::new(token_price) as Arc<RollerPriceMiddleware>;

@@ -207,7 +207,7 @@ impl RollupTxBuilder {
     }
 
     fn choose_gas_price(&self, max_price: U256, provider_current: U256) -> RollerResult<U256> {
-        if self.context.tx.support_1559() {
+        if self.context.tx.tx_eip1559() {
             Ok(std::cmp::min(provider_current.mul(2), max_price))
         } else {
             Ok(provider_current)

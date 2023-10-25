@@ -20,7 +20,7 @@ async fn test_create_roller_context() {
 
     env_config.config_path = "./tests/test_files/config/wrong_chain_id_config".to_string();
     let c = create_roller_context(&env_config).await;
-    assert!(matches!(c.err().unwrap(), RollerError::AnyhowError(_)));
+    assert!(matches!(c.err().unwrap(), RollerError::ChainConfigNotFoundError(_)));
 
     env_config.config_path = "./tests/test_files/config/wrong_tx_manager_config".to_string();
     let c = create_roller_context(&env_config).await;

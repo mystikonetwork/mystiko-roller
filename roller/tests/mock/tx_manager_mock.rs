@@ -16,7 +16,7 @@ mock! {
         where
     P: JsonRpcClient,
     {
-    fn support_1559(&self) -> bool;
+    fn tx_eip1559(&self) -> bool;
            async fn gas_price(&self, provider: &Provider<P>) -> TransactionMiddlewareResult<U256>;
             async fn estimate_gas(
                 &self,

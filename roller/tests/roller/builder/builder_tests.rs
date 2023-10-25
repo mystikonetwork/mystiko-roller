@@ -222,7 +222,7 @@ async fn test_builder_gas_price_error() {
     let gas_price = U256::from(100000000_u64);
     let mut mock_tx_manager = MockRollerTxManager::new();
     mock_tx_manager.expect_gas_price().returning(move |_| Ok(gas_price));
-    mock_tx_manager.expect_support_1559().returning(|| true);
+    mock_tx_manager.expect_tx_eip1559().returning(|| true);
     let block_number = U256::from(1000);
     mock_provider.push(block_number).unwrap();
     mock_provider.push::<Bytes, _>(include_count.clone()).unwrap();
@@ -247,7 +247,7 @@ async fn test_builder_calc_max_gas_price() {
     let gas_price = U256::from(1_u64);
     let mut mock_tx_manager = MockRollerTxManager::new();
     mock_tx_manager.expect_gas_price().returning(move |_| Ok(gas_price));
-    mock_tx_manager.expect_support_1559().returning(|| true);
+    mock_tx_manager.expect_tx_eip1559().returning(|| true);
     mock_context.tx = Arc::new(mock_tx_manager);
 
     let mut token_price = MockRollerTokenPrice::new();
@@ -279,7 +279,7 @@ async fn test_builder_calc_max_gas_price() {
     mock_provider.push(block_number).unwrap();
     let mut mock_tx_manager = MockRollerTxManager::new();
     mock_tx_manager.expect_gas_price().returning(move |_| Ok(gas_price));
-    mock_tx_manager.expect_support_1559().returning(|| false);
+    mock_tx_manager.expect_tx_eip1559().returning(|| false);
     mock_context.tx = Arc::new(mock_tx_manager);
 
     let arc_mock_context = Arc::new(mock_context.clone());
@@ -294,7 +294,7 @@ async fn test_builder_calc_max_gas_price() {
     let gas_price = U256::from(2_u64);
     let mut mock_tx_manager = MockRollerTxManager::new();
     mock_tx_manager.expect_gas_price().returning(move |_| Ok(gas_price));
-    mock_tx_manager.expect_support_1559().returning(|| true);
+    mock_tx_manager.expect_tx_eip1559().returning(|| true);
     mock_context.tx = Arc::new(mock_tx_manager);
 
     let mut token_price = MockRollerTokenPrice::new();
@@ -334,7 +334,7 @@ async fn test_builder_force_calc_max_gas_price() {
     let gas_price = U256::from(1_u64);
     let mut mock_tx_manager = MockRollerTxManager::new();
     mock_tx_manager.expect_gas_price().returning(move |_| Ok(gas_price));
-    mock_tx_manager.expect_support_1559().returning(|| true);
+    mock_tx_manager.expect_tx_eip1559().returning(|| true);
     mock_context.tx = Arc::new(mock_tx_manager);
 
     let mut token_price = MockRollerTokenPrice::new();
@@ -366,7 +366,7 @@ async fn test_builder_force_calc_max_gas_price() {
     mock_provider.push(block_number).unwrap();
     let mut mock_tx_manager = MockRollerTxManager::new();
     mock_tx_manager.expect_gas_price().returning(move |_| Ok(gas_price));
-    mock_tx_manager.expect_support_1559().returning(|| false);
+    mock_tx_manager.expect_tx_eip1559().returning(|| false);
     mock_context.tx = Arc::new(mock_tx_manager);
 
     let arc_mock_context = Arc::new(mock_context.clone());
