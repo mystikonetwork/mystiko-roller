@@ -3,7 +3,7 @@ use crate::context::RollerContext;
 use crate::roller::builder::RollupTxBuilder;
 use crate::roller::sender::RollupTxSender;
 use crate::roller::types::RollupProofData;
-use log::{error, info};
+use log::{error, info, warn};
 use std::sync::Arc;
 
 pub struct ChainRoller {
@@ -91,11 +91,20 @@ impl ChainRoller {
                     }
                 }
                 Err(e) => {
-                    error!(
-                        "pool contract[address={:?}] send pool rollup transaction error {:?}",
-                        tx.pool_address.clone(),
-                        e
-                    );
+                    let error_msg = e.to_string();
+                    if error_msg.contains("nonce too low") {
+                        warn!(
+                            "pool contract[address={:?}] send pool rollup transaction error {:?}",
+                            tx.pool_address.clone(),
+                            e
+                        );
+                    } else {
+                        error!(
+                            "pool contract[address={:?}] send pool rollup transaction error {:?}",
+                            tx.pool_address.clone(),
+                            e
+                        );
+                    }
                 }
             }
         }

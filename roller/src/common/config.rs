@@ -64,7 +64,8 @@ impl RollerConfig {
         self.rollup
             .chains
             .get(&self.chain_id)
-            .map_or_else(default_force_rollup_block_count, |c| c.force_rollup_block_count)
+            .and_then(|c| c.force_rollup_block_count)
+            .unwrap_or_else(|| default_force_rollup_block_count(self.chain_id))
     }
 
     pub fn rollup_gas_cost(&self, rollup_size: usize) -> u64 {
@@ -111,6 +112,7 @@ pub struct RollerLoaderConfig {
 impl RollerLoaderConfig {
     pub fn set_default_roller_fetcher(&mut self) {
         self.config.fetchers.insert(0, FetcherType::Packer as i32);
+        self.config.fetchers.insert(0, FetcherType::Sequencer as i32);
         self.config.fetchers.insert(2, FetcherType::Etherscan as i32);
         self.config.fetchers.insert(3, FetcherType::Provider as i32);
     }
@@ -170,9 +172,9 @@ pub struct RollerRollupChainConfig {
     #[builder(default = default_max_gas_price())]
     pub max_gas_price: u64,
 
-    #[serde(default = "default_force_rollup_block_count")]
-    #[builder(default = default_force_rollup_block_count())]
-    pub force_rollup_block_count: u64,
+    #[serde(default)]
+    #[builder(default)]
+    pub force_rollup_block_count: Option<u64>,
 
     #[serde(default = "default_rollup_gas_cost")]
     #[builder(default = default_rollup_gas_cost())]
@@ -272,8 +274,18 @@ fn default_max_gas_price() -> u64 {
     100000000000_u64
 }
 
-fn default_force_rollup_block_count() -> u64 {
-    100
+fn default_force_rollup_block_count(chain_id: u64) -> u64 {
+    let delay = match chain_id {
+        1 | 5 => 500,
+        56 | 97 => 1875,
+        137 | 80001 => 2500,
+        8453 | 84531 => 2500,
+        43113 => 1875,
+        4002 => 3125,
+        1287 => 292,
+        _ => 2000,
+    };
+    delay * 7 / 10
 }
 
 fn default_rollup_gas_cost() -> HashMap<usize, u64> {

@@ -66,4 +66,5 @@ async fn test_default_roller_env_config() {
             .api_key,
         Some("ABD".to_string())
     );
+    std::env::remove_var("ROLLER_TEST_CONFIG.LOADER.CONFIG.FETCHER_CONFIG.ETHERSCAN.CHAINS.5.API_KEY");
 }

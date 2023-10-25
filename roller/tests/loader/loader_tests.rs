@@ -6,6 +6,5 @@ use std::sync::Arc;
 async fn test_handler() {
     let (mock_context, _) = create_mock_context(None).await;
     let loader = RollerChainDataLoader::from_config(Arc::new(mock_context)).await;
-    println!(" {:?}", loader.err());
-    // assert!(loader.is_ok());
+    assert!(loader.is_ok());
 }

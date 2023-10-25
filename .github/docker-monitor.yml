@@ -3,7 +3,7 @@ name: Docker
 on:
   workflow_dispatch:
   push:
-    branches: [ 'master' ]
+    branches: ["master"]
 
 jobs:
   docker:
@@ -43,7 +43,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: mystikonetwork/rollup-miner
+          images: mystikonetwork/roller-monitor
           tags: |
             type=schedule
             type=ref,event=branch
@@ -54,13 +54,14 @@ jobs:
             type=sha
 
       - name: Build
+        working-directory: ./monitor
         run: cargo build --release --all-features
 
       - name: Docker Build and Push
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./roller/docker/Dockerfile
+          file: ./monitor/docker/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true

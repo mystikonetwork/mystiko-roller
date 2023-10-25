@@ -55,6 +55,7 @@ pub async fn create_roller_context(env_config: &RollerEnvConfig) -> RollerResult
         .build();
     let tx_manager = builder.build::<JsonProviderWrapper>(&provider).await?;
     let tx_manager = Arc::new(tx_manager) as Arc<RollerTransactionMiddleware>;
+    info!("chain support 1559 {:?}", tx_manager.support_1559());
     let token_price_cfg = create_token_price_config(env_config)?;
     let token_price = TokenPrice::new(&token_price_cfg, &env_config.token_price_api_key)?;
     let token_price = Arc::new(token_price) as Arc<RollerPriceMiddleware>;

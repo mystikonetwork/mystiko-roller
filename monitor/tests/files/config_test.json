@@ -1,0 +1,39 @@
+{
+    "logging_level": "warn",
+    "extern_logging_level": "error",
+    "notification": {
+        "topic_arn_key": "test_topic",
+        "region": "test_region"
+    },
+    "chains": {
+        "1": {
+            "max_rollup_delay_block": 1000
+        },
+        "2": {
+            "max_rollup_delay_block": 2000
+        }
+    },
+    "sequencer": {
+        "host": "0.0.0.0",
+        "port": 21111,
+        "is_ssl": false,
+        "ssl_cert": "test_ssl_cert",
+        "ssl_cert_path": "test_ssl_cert_path",
+        "ssl_server_name": "test_ssl_server_name"
+    },
+    "mystiko": {
+        "file_path": "test_file_path",
+        "is_testnet": true,
+        "is_staging": false,
+        "remote_base_url": "test_remote_base_url",
+        "git_revision": "test_git_revision"
+    },
+    "scheduler": {
+        "interval_ms": 120000,
+        "no_retry_on_timeout": true,
+        "task_timeout_ms": 1200000,
+        "max_retry_times": 2,
+        "status_server_bind_address": "0.0.0.0",
+        "status_server_port": 21828
+    }
+}

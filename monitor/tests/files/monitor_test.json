@@ -1,0 +1,31 @@
+{
+  "logging_level": "DEBUG",
+  "extern_logging_level": "WARN",
+  "notification": {
+    "topic_arn_key": "test_topic",
+    "region": "test_region"
+  },
+  "chains": {
+    "1": {
+      "max_rollup_delay_block": 1000
+    },
+    "56": {
+      "max_rollup_delay_block": 10000
+    },
+    "99999": {
+      "max_rollup_delay_block": 10000
+    }
+  },
+  "sequencer": {
+    "port": 21111
+  },
+  "mystiko": {
+    "file_path": "./tests/files/mystiko.json"
+  },
+  "scheduler": {
+    "interval_ms": 5000,
+    "no_retry_on_timeout": false,
+    "task_timeout_ms": 15000,
+    "max_retry_times": 3
+  }
+}
