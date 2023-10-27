@@ -8,6 +8,7 @@ pub fn roller_trace_init(config: &RollerConfig) -> RollerResult<()> {
         .filter_module("mystiko_scheduler", log::LevelFilter::from_str(&config.log_level)?)
         .filter_module("mystiko_dataloader", log::LevelFilter::from_str(&config.log_level)?)
         .filter_module("mystiko_roller", log::LevelFilter::from_str(&config.log_level)?)
+        .filter_module("mystiko_server_utils", log::LevelFilter::from_str(&config.log_level)?)
         .try_init();
     Ok(())
 }
