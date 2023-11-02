@@ -1365,9 +1365,9 @@ checksum = "7a81dae078cea95a014a339291cec439d2f232ebe854a9d672b796c6afafa9b7"
 
 [[package]]
 name = "crypto-bigint"
-version = "0.5.3"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "740fe28e594155f10cfc383984cbefd529d7396050557148f79cb0f621204124"
+checksum = "071c0f5945634bc9ba7a452f492377dd6b1993665ddb58f28704119b32f07a9a"
 dependencies = [
  "generic-array 0.14.7",
  "rand_core 0.6.4",
@@ -3413,7 +3413,7 @@ dependencies = [
 [[package]]
 name = "mystiko_downloader"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=d2ba15d#d2ba15d1bd5b5b945b9e13915fca28f804da3a1e"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=e4aa868#e4aa868bfe82749943e7e0b59731f59d0c34dfd8"
 dependencies = [
  "anyhow",
  "async-compression",
@@ -3492,7 +3492,7 @@ dependencies = [
 [[package]]
 name = "mystiko_fs"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=d2ba15d#d2ba15d1bd5b5b945b9e13915fca28f804da3a1e"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=e4aa868#e4aa868bfe82749943e7e0b59731f59d0c34dfd8"
 dependencies = [
  "anyhow",
  "async-compression",
@@ -3637,6 +3637,7 @@ dependencies = [
  "anyhow",
  "async-trait",
  "config",
+ "crypto-bigint",
  "dotenv",
  "env_logger",
  "ethers-contract",
@@ -3658,7 +3659,7 @@ dependencies = [
  "mystiko_protocol",
  "mystiko_protos 0.1.0 (git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=8cd3cbf)",
  "mystiko_scheduler 0.1.0 (git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=8cd3cbf)",
- "mystiko_server_utils 0.1.0 (git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=d2ba15d)",
+ "mystiko_server_utils 0.1.0 (git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=e4aa868)",
  "mystiko_storage",
  "mystiko_storage_macros",
  "mystiko_storage_sqlite",
@@ -3815,11 +3816,12 @@ dependencies = [
 [[package]]
 name = "mystiko_server_utils"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=d2ba15d#d2ba15d1bd5b5b945b9e13915fca28f804da3a1e"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=e4aa868#e4aa868bfe82749943e7e0b59731f59d0c34dfd8"
 dependencies = [
  "anyhow",
  "async-trait",
  "config",
+ "crypto-bigint",
  "dotenv",
  "ethers-core",
  "ethers-middleware",

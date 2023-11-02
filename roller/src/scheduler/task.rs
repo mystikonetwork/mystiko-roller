@@ -50,7 +50,7 @@ impl RollerTask {
         match result {
             Ok(_) => Ok(()),
             Err(e) => {
-                warn!("load failed with error {}", e);
+                warn!("load failed: {:?}", e);
                 self.context.status.set_action(RollerStatusAction::Idle).await;
                 Err(e)
             }
@@ -66,7 +66,7 @@ impl RollerTask {
                 Ok(())
             }
             Err(e) => {
-                warn!("load failed with error {}", e);
+                warn!("load failed: {:?}", e);
                 self.context.status.set_action(RollerStatusAction::Idle).await;
                 Err(e)
             }

@@ -94,13 +94,13 @@ impl ChainRoller {
                     let error_msg = e.to_string();
                     if error_msg.contains("nonce too low") {
                         warn!(
-                            "pool contract[address={:?}] send pool rollup transaction error {:?}",
+                            "pool contract[address={:?}] send rollup transaction failed: {:?}",
                             tx.pool_address.clone(),
                             e
                         );
                     } else {
                         error!(
-                            "pool contract[address={:?}] send pool rollup transaction error {:?}",
+                            "pool contract[address={:?}] send rollup transaction failed: {:?}",
                             tx.pool_address.clone(),
                             e
                         );

@@ -11,10 +11,6 @@ const MONITOR_CONFIG_PREFIX: &str = "MYSTIKO_ROLLER_MONITOR";
 #[derive(Debug, Clone, Deserialize, Serialize, TypedBuilder)]
 #[builder(field_defaults(setter(into)))]
 pub struct RollerMonitorConfig {
-    #[serde(default = "default_is_testnet")]
-    #[builder(default = default_is_testnet())]
-    pub is_testnet: bool,
-
     #[serde(default = "default_logging_level")]
     #[builder(default = default_logging_level())]
     pub logging_level: String,
@@ -147,10 +143,6 @@ pub struct NotificationConfig {
 #[builder(field_defaults(setter(into)))]
 pub struct ChainMonitorConfig {
     pub max_rollup_delay_block: u64,
-}
-
-fn default_is_testnet() -> bool {
-    false
 }
 
 fn default_logging_level() -> String {
