@@ -66,7 +66,7 @@ impl ChainRoller {
                 }
                 Err(e) => {
                     error!(
-                        "pool contract[address={:?}] build rollup transaction error {:?}",
+                        "pool contract[address={:?}] build rollup transaction critical error {:?}",
                         address, e
                     );
                 }
@@ -92,7 +92,7 @@ impl ChainRoller {
                 }
                 Err(e) => {
                     let error_msg = e.to_string();
-                    if error_msg.contains("nonce too low") {
+                    if error_msg.contains("nonce too low") || error_msg.contains("TxDroppedError") {
                         warn!(
                             "pool contract[address={:?}] send rollup transaction failed: {:?}",
                             tx.pool_address.clone(),
@@ -100,7 +100,7 @@ impl ChainRoller {
                         );
                     } else {
                         error!(
-                            "pool contract[address={:?}] send rollup transaction failed: {:?}",
+                            "pool contract[address={:?}] send rollup transaction critical error: {:?}",
                             tx.pool_address.clone(),
                             e
                         );

@@ -4,7 +4,7 @@ use mystiko_roller::scheduler::schedule::run;
 async fn main() {
     let result = run().await;
     if result.is_err() {
-        println!("roller run meet error {:?}", result.err());
+        println!("roller run meet critical error {:?}", result.err());
     }
 }
 
