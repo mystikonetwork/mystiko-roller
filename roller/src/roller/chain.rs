@@ -65,10 +65,17 @@ impl ChainRoller {
                     }
                 }
                 Err(e) => {
-                    error!(
-                        "pool contract[address={:?}] build rollup transaction critical error {:?}",
-                        address, e
-                    );
+                    if is_warning(&e) {
+                        warn!(
+                            "pool contract[address={:?}] build rollup transaction failed {:?}",
+                            address, e
+                        );
+                    } else {
+                        error!(
+                            "pool contract[address={:?}] build rollup transaction critical error {:?}",
+                            address, e
+                        );
+                    }
                 }
             }
         }
