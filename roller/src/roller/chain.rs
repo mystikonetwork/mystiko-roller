@@ -91,8 +91,7 @@ impl ChainRoller {
                     }
                 }
                 Err(e) => {
-                    let error_msg = e.to_string();
-                    if error_msg.contains("nonce too low") || error_msg.contains("TxDroppedError") {
+                    if is_warning(&e) {
                         warn!(
                             "pool contract[address={:?}] send rollup transaction failed: {:?}",
                             tx.pool_address.clone(),
@@ -111,4 +110,14 @@ impl ChainRoller {
 
         Ok(next_rollup_pools)
     }
+}
+
+fn is_warning(e: &RollerError) -> bool {
+    matches!(
+        e,
+        RollerError::CurrentGasPriceTooHighError(_)
+            | RollerError::ProviderError(_)
+            | RollerError::TokenPriceError(_)
+            | RollerError::TxManagerError(_)
+    )
 }
