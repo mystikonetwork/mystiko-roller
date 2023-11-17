@@ -7,6 +7,7 @@ use mystiko_dataloader::handler::{
     CommitmentQueryOption, DataHandler, HandleOption, HandleResult, NullifierQueryOption, QueryResult,
     Result as HandlerErrorResult,
 };
+use mystiko_dataloader::loader::ResetOptions;
 use mystiko_protos::data::v1::{Commitment, Nullifier};
 
 mock! {
@@ -29,5 +30,6 @@ mock! {
         async fn query_nullifiers(&self, option: &NullifierQueryOption) -> HandlerErrorResult<QueryResult<Vec<Nullifier>>>;
         async fn count_nullifiers(&self, option: &NullifierQueryOption) -> HandlerErrorResult<QueryResult<u64>>;
         async fn handle(&self, data: &ChainData<R>, option: &HandleOption) -> HandleResult;
+        async fn reset(&self, option: &ResetOptions) -> HandlerErrorResult<()>;
     }
 }

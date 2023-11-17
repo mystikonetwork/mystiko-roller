@@ -6,6 +6,7 @@ use mystiko_dataloader::handler::{
     CommitmentQueryOption, HandleOption, NullifierQueryOption, QueryResult, Result as HandlerResult,
 };
 use mystiko_dataloader::handler::{DataHandler, HandleResult};
+use mystiko_dataloader::loader::ResetOptions;
 use mystiko_protos::data::v1::{Commitment, Nullifier};
 use mystiko_storage::{Collection, Document, MigrationHistory, SqlStatementFormatter};
 use mystiko_storage::{StatementFormatter, Storage};
@@ -59,6 +60,10 @@ where
 
     async fn handle(&self, data: &RollerChainData, option: &HandleOption) -> HandleResult {
         self.database_handler.handle(data, option).await
+    }
+
+    async fn reset(&self, options: &ResetOptions) -> HandlerResult<()> {
+        self.database_handler.reset(options).await
     }
 }
 
