@@ -26,15 +26,15 @@ typed-builder = { version = "0.15.2" }
 tokio = { version = "1.26.0", features = ["time","full"] }
 
 # mystiko
-mystiko_abi = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0e8088a" }
-mystiko_config = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0e8088a", features = ["fs"] }
-mystiko_ethers = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0e8088a", features = ["config"] }
-mystiko_protos = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0e8088a", default-features = false, features = ["mystiko-api-config-v1"] }
-mystiko_scheduler = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0e8088a", features = ["signal", "status"] }
-mystiko_sequencer_client = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0e8088a" }
-mystiko_server_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "9a1d8d0" }
-mystiko_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0e8088a", features = ["config", "json"]}
-mystiko_notification = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "7af91d8", features = ["sns"]}
+mystiko_abi = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0a56ce9" }
+mystiko_config = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0a56ce9", features = ["fs"] }
+mystiko_ethers = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0a56ce9", features = ["config"] }
+mystiko_protos = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0a56ce9", default-features = false, features = ["mystiko-api-config-v1"] }
+mystiko_scheduler = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0a56ce9", features = ["signal", "status"] }
+mystiko_sequencer_client = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0a56ce9" }
+mystiko_server_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "5e48e46" }
+mystiko_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0a56ce9", features = ["config", "json"]}
+mystiko_notification = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "5e48e46", features = ["sns"]}
 
 
 [dev-dependencies]
@@ -44,4 +44,4 @@ ethers-providers = { version = "2.0.4", features = ["ws"] }
 mockall = { version = "0.11.4" }
 serial_test = { version = "2.0.0" }
 tonic = { version = "0.9.2", features = ["tls"] }
-mystiko_grpc = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0e8088a", default-features = false, features = ["fs", "server"] }
+mystiko_grpc = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "0a56ce9", default-features = false, features = ["fs", "server"] }
