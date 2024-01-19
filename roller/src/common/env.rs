@@ -12,6 +12,7 @@ const ENV_ROLLER_RUN_MOD: &str = "MYSTIKO_ROLLER_RUN_MOD";
 const ENV_ROLLER_MEMORY_DB: &str = "MYSTIKO_ROLLER_MEMORY_DB";
 const ENV_ROLLER_HOME_PATH: &str = "MYSTIKO_ROLLER_HOME_PATH";
 const ENV_ROLLER_CONFIG_PATH: &str = "MYSTIKO_ROLLER_CONFIG_PATH";
+const ENV_ROLLER_CONFIG_IS_STAGING: &str = "MYSTIKO_ROLLER_CONFIG_IS_STAGING";
 const ENV_ROLLER_DATA_PATH: &str = "MYSTIKO_ROLLER_DATA_PATH";
 const ENV_ROLLER_CIRCUITS_PATH: &str = "MYSTIKO_ROLLER_CIRCUITS_PATH";
 const ENV_ROLLER_PRIVATE_KEY: &str = "MYSTIKO_ROLLER_PRIVATE_KEY";
@@ -55,6 +56,7 @@ pub struct RollerEnvConfig {
     pub run_mod: RollerRunMod,
     pub memory_db: bool,
     pub config_path: String,
+    pub config_is_staging: bool,
     pub config_env_prefix: String,
     pub data_file: String,
     pub circuits_path: String,
@@ -68,6 +70,7 @@ impl RollerEnvConfig {
         let memory_db = load_roller_memory_db();
         let home_path = load_roller_home_path();
         let config_path = load_roller_config_path(&home_path);
+        let is_staging = load_roller_config_is_staging();
         let data_file = load_roller_data_file(&home_path);
         let circuits_path = load_roller_circuits_path(&home_path);
         let private_key = load_private_key()?;
@@ -78,6 +81,7 @@ impl RollerEnvConfig {
             .private_key(private_key)
             .token_price_api_key(token_price_api_key)
             .config_path(config_path)
+            .config_is_staging(is_staging)
             .config_env_prefix(ROLLER_ENV_CONFIG_PREFIX.to_string())
             .data_file(data_file)
             .circuits_path(circuits_path)
@@ -113,6 +117,14 @@ pub fn load_roller_run_mod() -> RollerResult<RollerRunMod> {
     match env::var(ENV_ROLLER_RUN_MOD) {
         Ok(value) => RollerRunMod::from_str(&value),
         Err(_) => Ok(RollerRunMod::Mainnet),
+    }
+}
+
+pub fn load_roller_config_is_staging() -> bool {
+    dotenv().ok();
+    match env::var(ENV_ROLLER_CONFIG_IS_STAGING) {
+        Ok(value) => value == "true",
+        Err(_) => false,
     }
 }
 

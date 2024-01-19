@@ -7,6 +7,7 @@ pub fn create_mock_env_config() -> RollerEnvConfig {
         .run_mod(RollerRunMod::Testnet)
         .memory_db(true)
         .config_path("./tests/test_files/home/config".to_string())
+        .config_is_staging(false)
         .config_env_prefix("ROLLER_TEST".to_string())
         .data_file("".to_string())
         .circuits_path("./tests/test_files/home/circuits".to_string())

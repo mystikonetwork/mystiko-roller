@@ -228,6 +228,7 @@ pub async fn create_mystiko_config(env_config: &RollerEnvConfig) -> RollerResult
             info!("load mystiko configure from remote url");
             let remote_options = ConfigOptions::builder()
                 .is_testnet(env_config.run_mod.is_testnet())
+                .is_staging(env_config.config_is_staging)
                 .build();
             MystikoConfig::from_remote(&remote_options).await.map_err(|e| e.into())
         }
