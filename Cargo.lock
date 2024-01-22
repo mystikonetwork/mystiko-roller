@@ -3410,7 +3410,7 @@ dependencies = [
 [[package]]
 name = "mystiko_downloader"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=5e48e46#5e48e461bc1802884e7fefec72ba52916172587a"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=0159256#01592567d3333313bbdc606853356406af6ccd8f"
 dependencies = [
  "anyhow",
  "async-compression",
@@ -3465,7 +3465,7 @@ dependencies = [
 [[package]]
 name = "mystiko_fs"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=5e48e46#5e48e461bc1802884e7fefec72ba52916172587a"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=0159256#01592567d3333313bbdc606853356406af6ccd8f"
 dependencies = [
  "anyhow",
  "async-compression",
@@ -3585,7 +3585,7 @@ dependencies = [
  "mystiko_protocol",
  "mystiko_protos",
  "mystiko_scheduler",
- "mystiko_server_utils",
+ "mystiko_server_utils 0.1.0 (git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=0159256)",
  "mystiko_storage",
  "mystiko_storage_macros",
  "mystiko_storage_sqlite",
@@ -3625,7 +3625,7 @@ dependencies = [
  "mystiko_protos",
  "mystiko_scheduler",
  "mystiko_sequencer_client",
- "mystiko_server_utils",
+ "mystiko_server_utils 0.1.0 (git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=5e48e46)",
  "mystiko_utils 0.1.0 (git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=0a56ce9)",
  "num-bigint 0.4.4",
  "rusoto_core",
@@ -3673,6 +3673,33 @@ dependencies = [
  "thiserror",
  "tokio",
  "tonic",
+ "typed-builder",
+]
+
+[[package]]
+name = "mystiko_server_utils"
+version = "0.1.0"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=0159256#01592567d3333313bbdc606853356406af6ccd8f"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "config",
+ "crypto-bigint",
+ "dotenv",
+ "ethers-core",
+ "ethers-middleware",
+ "ethers-providers",
+ "ethers-signers",
+ "generic-array 0.14.7",
+ "lazy_static",
+ "log",
+ "mystiko_utils 0.1.0 (git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=f1512ac)",
+ "regex 1.10.2",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "tokio",
  "typed-builder",
 ]
 

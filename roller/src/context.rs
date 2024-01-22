@@ -38,7 +38,7 @@ pub async fn create_roller_context(env_config: &RollerEnvConfig) -> RollerResult
     roller_trace_init(&config)?;
 
     info!("start roller with chain id={:?}", chain_id);
-    let mystiko_config = Arc::new(create_mystiko_config(env_config).await?);
+    let mystiko_config = Arc::new(create_mystiko_config(env_config, &config.mystiko).await?);
     let chain_cfg = mystiko_config
         .find_chain(chain_id)
         .ok_or(RollerError::ChainConfigNotFoundError(chain_id))?;
@@ -48,7 +48,7 @@ pub async fn create_roller_context(env_config: &RollerEnvConfig) -> RollerResult
         TransactionType::Eip2930 => false,
     };
 
-    let handler = RollerDatabaseHandler::new(env_config, mystiko_config.clone()).await?;
+    let handler = RollerDatabaseHandler::new(config.memory_db, env_config, mystiko_config.clone()).await?;
     handler.migrate().await?;
     handler.initialize().await?;
     let handler = Arc::new(Box::new(handler) as Box<RollerDataHandler>);
@@ -65,7 +65,8 @@ pub async fn create_roller_context(env_config: &RollerEnvConfig) -> RollerResult
     let tx_manager = builder.build::<JsonProviderWrapper>(Some(tx_type), &provider).await?;
     let tx_manager = Arc::new(tx_manager) as Arc<RollerTransactionMiddleware>;
     info!("chain support 1559 {:?}", tx_manager.tx_eip1559());
-    let token_price_cfg = create_token_price_config(env_config)?;
+    let is_testnet = config.mystiko.is_testnet.unwrap_or_default();
+    let token_price_cfg = create_token_price_config(is_testnet, env_config)?;
     let token_price = TokenPrice::new(&token_price_cfg, &env_config.token_price_api_key)?;
     let token_price = Arc::new(token_price) as Arc<RollerPriceMiddleware>;
     let status = Arc::new(RollerStatusWrapper::new().await);

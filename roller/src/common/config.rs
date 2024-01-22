@@ -29,6 +29,14 @@ pub struct RollerConfig {
     #[builder(default = default_chain_id())]
     pub chain_id: u64,
 
+    #[serde(default = "default_is_memory_db")]
+    #[builder(default = default_is_memory_db())]
+    pub memory_db: bool,
+
+    #[builder(default)]
+    #[serde(default)]
+    pub mystiko: ConfigOptions,
+
     #[builder(default)]
     #[serde(default)]
     pub scheduler: RollerSchedulerConfig,
@@ -217,7 +225,10 @@ pub fn create_roller_config(env_config: &RollerEnvConfig) -> RollerResult<Roller
     RollerConfig::new(env_config)
 }
 
-pub async fn create_mystiko_config(env_config: &RollerEnvConfig) -> RollerResult<MystikoConfig> {
+pub async fn create_mystiko_config(
+    env_config: &RollerEnvConfig,
+    options: &ConfigOptions,
+) -> RollerResult<MystikoConfig> {
     let config_file = env_config.mystiko_config_file();
     match config_file {
         Some(c) => {
@@ -225,18 +236,14 @@ pub async fn create_mystiko_config(env_config: &RollerEnvConfig) -> RollerResult
             MystikoConfig::from_json_file(&c).await.map_err(|e| e.into())
         }
         None => {
-            info!("load mystiko configure from remote url");
-            let remote_options = ConfigOptions::builder()
-                .is_testnet(env_config.run_mod.is_testnet())
-                .is_staging(env_config.config_is_staging)
-                .build();
-            MystikoConfig::from_remote(&remote_options).await.map_err(|e| e.into())
+            info!("load mystiko configure from options");
+            MystikoConfig::from_options(options.clone()).await.map_err(|e| e.into())
         }
     }
 }
 
-pub fn create_token_price_config(env_config: &RollerEnvConfig) -> RollerResult<TokenPriceConfig> {
-    TokenPriceConfig::new(env_config.run_mod.as_str(), Some(env_config.roller_config_path())).map_err(|e| e.into())
+pub fn create_token_price_config(is_testnet: bool, env_config: &RollerEnvConfig) -> RollerResult<TokenPriceConfig> {
+    TokenPriceConfig::new(is_testnet, Some(env_config.roller_config_path())).map_err(|e| e.into())
 }
 
 pub fn create_tx_manager_config(env_config: &RollerEnvConfig) -> RollerResult<TxManagerConfig> {
@@ -249,6 +256,10 @@ fn default_logging_level() -> String {
 
 fn default_chain_id() -> u64 {
     1
+}
+
+fn default_is_memory_db() -> bool {
+    true
 }
 
 fn default_schedule_interval_ms() -> u64 {

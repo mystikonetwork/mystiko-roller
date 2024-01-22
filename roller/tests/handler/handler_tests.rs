@@ -9,7 +9,7 @@ use std::sync::Arc;
 async fn test_handler() {
     let env_config = create_mock_env_config();
     let mystiko_config = Arc::new(create_mock_mystiko_config().await);
-    let handler = RollerDatabaseHandler::new(&env_config, mystiko_config.clone())
+    let handler = RollerDatabaseHandler::new(true, &env_config, mystiko_config.clone())
         .await
         .unwrap();
     handler.migrate().await.unwrap();

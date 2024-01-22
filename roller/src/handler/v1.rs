@@ -68,9 +68,13 @@ where
 }
 
 impl RollerDatabaseHandler {
-    pub async fn new(env_config: &RollerEnvConfig, mystiko_config: Arc<MystikoConfig>) -> RollerResult<Self> {
+    pub async fn new(
+        memory_db: bool,
+        env_config: &RollerEnvConfig,
+        mystiko_config: Arc<MystikoConfig>,
+    ) -> RollerResult<Self> {
         let formatter = SqlStatementFormatter::sqlite();
-        let storage = match env_config.memory_db {
+        let storage = match memory_db {
             true => SqliteStorage::from_memory().await?,
             false => SqliteStorage::from_path(&env_config.data_file).await?,
         };
