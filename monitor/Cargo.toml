@@ -32,9 +32,9 @@ mystiko_ethers = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git",
 mystiko_protos = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c066670", default-features = false, features = ["mystiko-api-config-v1"] }
 mystiko_scheduler = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c066670", features = ["signal", "status"] }
 mystiko_sequencer_client = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c066670" }
-mystiko_server_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "5e48e46" }
+mystiko_server_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "699b72f" }
 mystiko_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c066670", features = ["config", "json"]}
-mystiko_notification = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "5e48e46", features = ["sns"]}
+mystiko_notification = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "699b72f", features = ["sns"]}
 
 
 [dev-dependencies]
