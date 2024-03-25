@@ -12,7 +12,7 @@ fn test_default_config() {
     let mut config = RollerMonitorConfig::default();
     assert_eq!(config.logging_level, "info");
     assert_eq!(config.extern_logging_level, "warn");
-    assert_eq!(config.notification.topic_arn_key, None);
+    assert_eq!(config.notification.topic_arn, None);
     assert_eq!(config.notification.region, "".to_string());
     let chain_config = ChainMonitorConfig::builder().max_rollup_delay_block(1000_u64).build();
     assert_eq!(chain_config.max_rollup_delay_block, 1000_u64);
@@ -20,7 +20,7 @@ fn test_default_config() {
     assert_eq!(config.chains.len(), 1);
     let notification_config = NotificationConfig::builder().region(String::from("region")).build();
     assert_eq!(notification_config.region, String::from("region"));
-    assert_eq!(notification_config.topic_arn_key, None);
+    assert_eq!(notification_config.topic_arn, None);
     let default_sequencer_options = ClientOptions::default();
     let test_sequencer_options = config.clone().sequencer;
     assert_eq!(test_sequencer_options.host, default_sequencer_options.host);
@@ -71,7 +71,7 @@ fn test_config_from_env() {
     let env_variables = vec![
         ("MYSTIKO_ROLLER_MONITOR.LOGGING_LEVEL", "warn"),
         ("MYSTIKO_ROLLER_MONITOR.EXTERN_LOGGING_LEVEL", "error"),
-        ("MYSTIKO_ROLLER_MONITOR.NOTIFICATION.TOPIC_ARN_KEY", "test_topic"),
+        ("MYSTIKO_ROLLER_MONITOR.NOTIFICATION.TOPIC_ARN", "test_topic"),
         ("MYSTIKO_ROLLER_MONITOR.NOTIFICATION.REGION", "test_region"),
         ("MYSTIKO_ROLLER_MONITOR.CHAINS.1.MAX_ROLLUP_DELAY_BLOCK", "1000"),
         ("MYSTIKO_ROLLER_MONITOR.CHAINS.2.MAX_ROLLUP_DELAY_BLOCK", "2000"),
@@ -110,7 +110,7 @@ fn test_config_from_env() {
 fn check_config(config: RollerMonitorConfig) {
     assert_eq!(config.logging_level, "warn");
     assert_eq!(config.extern_logging_level, "error");
-    assert_eq!(config.notification.topic_arn_key, Some("test_topic".to_string()));
+    assert_eq!(config.notification.topic_arn, Some("test_topic".to_string()));
     assert_eq!(config.notification.region, "test_region");
     let chains = config.chains;
     assert_eq!(chains.len(), 2);

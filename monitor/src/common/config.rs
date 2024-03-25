@@ -133,7 +133,7 @@ impl Default for SchedulerConfig {
 pub struct NotificationConfig {
     #[builder(default)]
     #[serde(default)]
-    pub topic_arn_key: Option<String>,
+    pub topic_arn: Option<String>,
     #[builder(default)]
     #[serde(default)]
     pub region: String,

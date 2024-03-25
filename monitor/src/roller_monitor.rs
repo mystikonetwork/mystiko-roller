@@ -149,7 +149,7 @@ where
                         .push(
                             MonitorAlert::<M>::builder()
                                 .error_message(error_message)
-                                .topic_arn(self.config.notification.topic_arn_key.clone())
+                                .topic_arn(self.config.notification.topic_arn.clone())
                                 .build()
                                 .into_message(),
                         )

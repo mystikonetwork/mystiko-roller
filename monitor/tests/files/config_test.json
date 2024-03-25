@@ -2,7 +2,7 @@
     "logging_level": "warn",
     "extern_logging_level": "error",
     "notification": {
-        "topic_arn_key": "test_topic",
+        "topic_arn": "test_topic",
         "region": "test_region"
     },
     "chains": {
