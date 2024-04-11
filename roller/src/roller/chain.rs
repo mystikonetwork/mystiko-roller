@@ -48,6 +48,7 @@ impl ChainRoller {
     pub async fn run_once(&self, pools: &[String]) -> RollerResult<Vec<String>> {
         let txs = self.build_rollup_transactions(pools).await?;
         if !txs.is_empty() {
+            info!("build rollup transactions success {}", txs.len());
             self.send_rollup_transactions(txs).await
         } else {
             Ok(vec![])

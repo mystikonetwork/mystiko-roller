@@ -53,7 +53,7 @@ where
         let chains = self.mystiko_config.chains();
         let checks = chains
             .iter()
-            .map(|c| async move { self.check_chain(c.chain_id()).await })
+            .map(|c| async move { self.check_chain(c.chain_id(), c.name()).await })
             .collect::<Vec<_>>();
         let check_results = futures::future::join_all(checks).await;
         let error = check_results.into_iter().find_map(|result| match result {
@@ -94,8 +94,8 @@ where
             .build())
     }
 
-    pub async fn check_chain(&self, chain_id: u64) -> RollerMonitorResult<()> {
-        log::info!("check chain={}", chain_id);
+    pub async fn check_chain(&self, chain_id: u64, chain_name: &str) -> RollerMonitorResult<()> {
+        log::info!("check chain={}", chain_name);
         let provider = self.providers.get_provider(chain_id).await?;
         let chain_cfg = self
             .mystiko_config
@@ -103,7 +103,7 @@ where
             .ok_or(RollerMonitorError::ChainConfigNotFoundError(chain_id))?;
         for contract in chain_cfg.pool_contracts() {
             if contract.version() >= 6 {
-                self.check_contract(chain_id, contract.address(), provider.clone())
+                self.check_contract(chain_id, chain_name, contract.address(), provider.clone())
                     .await?;
             }
         }
@@ -113,10 +113,11 @@ where
     pub async fn check_contract(
         &self,
         chain_id: u64,
+        chain_name: &str,
         contract_address: &str,
         provider: Arc<Provider>,
     ) -> RollerMonitorResult<()> {
-        log::info!("check chain={} contract={}", chain_id, contract_address);
+        log::info!("check chain={} contract={}", chain_name, contract_address);
         let address = ethers_address_from_string(contract_address)
             .map_err(|_| RollerMonitorError::ConvertContractAddressError(contract_address.to_string()))?;
         let pool = CommitmentPool::new(address, provider.clone());
@@ -138,9 +139,9 @@ where
                     );
                     let error_message = format!(
                         "🚨 Roller Monitor Alert 🚨\n\n\
-                        chain_id={} contract={} commitment={} \
+                        chain={} contract={} commitment={} \
                         is not included for {} blocks",
-                        chain_id,
+                        chain_name,
                         contract_address,
                         cm.clone(),
                         max_delay_block
