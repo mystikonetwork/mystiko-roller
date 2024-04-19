@@ -77,7 +77,7 @@ impl RollupTxBuilder {
             queued_cms.len(),
             self.context.config.rollup.max_rollup_size,
         )?;
-        info!("build rollup plan {:?}", sizes_plan);
+        info!("build rollup contract {:?} plan {:?}", pool_address, sizes_plan);
         let plan = RollupPlanData::builder()
             .pool_address(pool_address.to_string())
             .total(total_size_plan)

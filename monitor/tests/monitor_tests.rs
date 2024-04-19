@@ -12,9 +12,10 @@ use mystiko_protos::data::v1::Commitment;
 use mystiko_protos::sequencer::v1::sequencer_service_server::SequencerServiceServer;
 use mystiko_protos::sequencer::v1::{
     ChainLoadedBlockRequest, ChainLoadedBlockResponse, ContractLoadedBlockRequest, ContractLoadedBlockResponse,
-    FetchChainRequest, FetchChainResponse, GetCommitmentsByTxHashRequest, GetCommitmentsByTxHashResponse,
-    GetCommitmentsRequest, GetCommitmentsResponse, GetNullifiersByTxHashRequest, GetNullifiersByTxHashResponse,
-    GetNullifiersRequest, GetNullifiersResponse, HealthCheckRequest, HealthCheckResponse,
+    FetchChainRequest, FetchChainResponse, GetCommitmentHashesRequest, GetCommitmentHashesResponse,
+    GetCommitmentsByTxHashRequest, GetCommitmentsByTxHashResponse, GetCommitmentsRequest, GetCommitmentsResponse,
+    GetNullifiersByTxHashRequest, GetNullifiersByTxHashResponse, GetNullifiersRequest, GetNullifiersResponse,
+    HealthCheckRequest, HealthCheckResponse,
 };
 use mystiko_protos::service::v1::ServerOptions;
 use mystiko_roller_monitor::{start_monitor, start_monitor_with_config, RollerMonitor, RollerMonitorConfig};
@@ -268,7 +269,8 @@ mock! {
       async fn health_check(&self, _request: Request<HealthCheckRequest>,) -> Result<Response<HealthCheckResponse>,Status>;
       async fn get_commitments_by_tx_hash(&self, request: Request<GetCommitmentsByTxHashRequest>) -> Result<Response<GetCommitmentsByTxHashResponse>, Status>;
       async fn get_nullifiers_by_tx_hash(&self, request: Request<GetNullifiersByTxHashRequest>) -> Result<Response<GetNullifiersByTxHashResponse>, Status>;
-  }
+      async fn get_commitment_hashes(&self, request: tonic::Request<GetCommitmentHashesRequest>) -> Result<Response<GetCommitmentHashesResponse>, Status>;
+    }
 }
 
 #[tokio::test]

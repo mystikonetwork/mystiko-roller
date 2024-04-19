@@ -150,7 +150,7 @@ impl Default for RollerLoaderConfig {
 pub struct RollerRollupConfig {
     #[serde(default = "default_max_rollup_size")]
     #[builder(default = default_max_rollup_size())]
-    #[validate(range(max = 16))]
+    #[validate(range(min = 1))]
     pub max_rollup_size: usize,
 
     #[serde(default = "default_max_rollup_one_round")]

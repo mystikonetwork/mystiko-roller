@@ -1,5 +1,6 @@
 use crate::common::{RollerError, RollerResult};
 use ethers_core::types::U256;
+use log::info;
 use mystiko_protos::data::v1::Commitment;
 use mystiko_types::CircuitType;
 use mystiko_utils::convert::bytes_to_u256;
@@ -12,12 +13,16 @@ pub fn circuit_type_from_rollup_size(rollup_size: usize) -> RollerResult<Circuit
         4 => Ok(CircuitType::Rollup4),
         8 => Ok(CircuitType::Rollup8),
         16 => Ok(CircuitType::Rollup16),
+        32 => Ok(CircuitType::Rollup32),
+        64 => Ok(CircuitType::Rollup64),
         x => Err(RollerError::RollupSizeError(x)),
     }
 }
 
 fn calc_rollup_size(included: usize, queued: usize, max_rollup_size: usize) -> usize {
     let rollup_size = match () {
+        _ if queued >= 64 && included % 64 == 0 => 64,
+        _ if queued >= 32 && included % 32 == 0 => 32,
         _ if queued >= 16 && included % 16 == 0 => 16,
         _ if queued >= 8 && included % 8 == 0 => 8,
         _ if queued >= 4 && included % 4 == 0 => 4,
@@ -36,6 +41,11 @@ pub fn calc_rollup_size_queue(
     if queued == 0 {
         return Err(RollerError::RollupSizeError(0));
     }
+
+    info!(
+        "included: {}, queued: {}, max_rollup_size: {}",
+        included, queued, max_rollup_size
+    );
 
     let mut total_rollup_size = 0;
     let mut rollup_array = Vec::new();

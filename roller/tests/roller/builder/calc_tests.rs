@@ -9,11 +9,13 @@ async fn test_circuit_type_from_rollup_size() {
     assert_eq!(CircuitType::Rollup4, circuit_type_from_rollup_size(4).unwrap());
     assert_eq!(CircuitType::Rollup8, circuit_type_from_rollup_size(8).unwrap());
     assert_eq!(CircuitType::Rollup16, circuit_type_from_rollup_size(16).unwrap());
+    assert_eq!(CircuitType::Rollup32, circuit_type_from_rollup_size(32).unwrap());
+    assert_eq!(CircuitType::Rollup64, circuit_type_from_rollup_size(64).unwrap());
 }
 
 #[test]
-fn test_test_circuit_type_from_rollup_size_32() {
-    let result = circuit_type_from_rollup_size(32);
+fn test_test_circuit_type_from_rollup_size_128() {
+    let result = circuit_type_from_rollup_size(128);
     assert!(matches!(result.err().unwrap(), RollerError::RollupSizeError(_)));
 }
 

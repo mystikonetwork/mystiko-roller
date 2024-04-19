@@ -9,8 +9,8 @@ async-trait = { version = "0.1.64" }
 config = { version = "0.13.3" }
 dotenv = { version = "0.15.0" }
 env_logger = { version = "0.10.0" }
-ethers-core  = { version = "2.0.4" }
-ethers-contract  = { version = "2.0.4" }
+ethers-core = { version = "2.0.4" }
+ethers-contract = { version = "2.0.4" }
 ethers-providers = { version = "2.0.4", features = ["ws"] }
 ethers-signers = { version = "2.0.4" }
 futures = { version = "0.3.28" }
@@ -22,30 +22,30 @@ serde = { version = "1.0.152" }
 serde_json = { version = "1.0.91", features = ["preserve_order"] }
 thiserror = { version = "1.0", default-features = false }
 typed-builder = { version = "0.15.2" }
-tokio = { version = "1.26.0", features = ["time","full"] }
+tokio = { version = "1.26.0", features = ["time", "full"] }
 validator = { version = "0.16.0", features = ["derive"] }
 crypto-bigint = { version = "=0.5.0" }
 
 # mystiko
-mystiko_abi = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c009564" }
-mystiko_config = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c009564", features = ["fs"] }
+mystiko_abi = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "d729b78" }
+mystiko_config = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "d729b78", features = ["fs"] }
 mystiko_crypto = { git = "ssh://git@github.com/mystikonetwork/mystiko-protocol.git", rev = "93fbd08" }
-mystiko_ethers = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c009564", features = ["config"] }
+mystiko_ethers = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "d729b78", features = ["config"] }
 mystiko_downloader = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "f1d55c2" }
-mystiko_dataloader = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c009564" }
+mystiko_dataloader = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "d729b78" }
 mystiko_fs = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "f1d55c2" }
-mystiko_scheduler = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c009564", features = ["signal", "status"] }
+mystiko_scheduler = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "d729b78", features = ["signal", "status"] }
 mystiko_server_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "f1d55c2" }
-mystiko_storage = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c009564" }
-mystiko_storage_sqlite = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c009564" }
-mystiko_types = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c009564" }
-mystiko_protos = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c009564", default-features = false, features = ["mystiko-storage-v1"] }
+mystiko_storage = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "d729b78" }
+mystiko_storage_sqlite = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "d729b78" }
+mystiko_types = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "d729b78" }
+mystiko_protos = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "d729b78", default-features = false, features = ["mystiko-storage-v1"] }
 mystiko_protocol = { git = "ssh://git@github.com/mystikonetwork/mystiko-protocol.git", rev = "93fbd08" }
-mystiko_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c009564", features = ["config"]}
-mystiko_storage_macros = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "c009564" }
+mystiko_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "d729b78", features = ["config"] }
+mystiko_storage_macros = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "d729b78" }
 
 [dev-dependencies]
-ethers-contract = { version = "2.0.4"}
+ethers-contract = { version = "2.0.4" }
 mockall = { version = "0.11.4" }
 tokio = { version = "1.26.0", features = ["macros", "rt", "test-util"] }
 
