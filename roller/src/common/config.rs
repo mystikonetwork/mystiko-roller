@@ -29,6 +29,9 @@ pub struct RollerConfig {
     #[builder(default = default_chain_id())]
     pub chain_id: u64,
 
+    #[builder(default)]
+    pub signer_provider: Option<String>,
+
     #[serde(default = "default_is_memory_db")]
     #[builder(default = default_is_memory_db())]
     pub memory_db: bool,

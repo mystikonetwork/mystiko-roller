@@ -10,8 +10,8 @@ use crate::scheduler::status::RollerStatusWrapper;
 use ethers_signers::{LocalWallet, Signer};
 use log::info;
 use mystiko_config::MystikoConfig;
-use mystiko_ethers::Provider;
 use mystiko_ethers::Providers;
+use mystiko_ethers::{DefaultProviderFactory, Provider, ProviderFactory, ProviderOptions, ProvidersOptions};
 use mystiko_server_utils::token_price::TokenPrice;
 use mystiko_server_utils::tx_manager::TxManagerBuilder;
 use mystiko_types::TransactionType;
@@ -53,7 +53,13 @@ pub async fn create_roller_context(env_config: &RollerEnvConfig) -> RollerResult
     handler.initialize().await?;
     let handler = Arc::new(Box::new(handler) as Box<RollerDataHandler>);
     let providers: RollerProviderPool = mystiko_config.clone().into();
-    let provider = providers.get_provider(chain_id).await?;
+    let provider = if let Some(signer_provider) = config.signer_provider.clone() {
+        info!("use signer provider: {}", signer_provider);
+        let options = ProvidersOptions::Failover(vec![ProviderOptions::builder().url(signer_provider.clone()).build()]);
+        Arc::new(DefaultProviderFactory::new().create_provider(options).await?)
+    } else {
+        providers.get_provider(chain_id).await?
+    };
     let tx_manager_cfg = create_tx_manager_config(env_config)?;
     let local_wallet = LocalWallet::from_str(&env_config.private_key)?.with_chain_id(chain_id);
     info!("local wallet address is {:?}", local_wallet.address());
