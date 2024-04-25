@@ -17,8 +17,8 @@ futures = { version = "0.3.28" }
 hyper = { version = "0.14.27", features = ["http1", "server", "tcp"] }
 log = { version = "0.4.17" }
 num-bigint = { version = "0.4.3" }
-rusoto_core = { version = "0.48.0" }
-rusoto_sns = { version = "0.48.0" }
+rusoto_sns = { version = "0.48.0", default-features = false, features = ["rustls"] }
+rusoto_core = { version = "0.48.0", default-features = false, features = ["rustls"] }
 serde = { version = "1.0.152" }
 serde_json = { version = "1.0.91", features = ["preserve_order"] }
 thiserror = { version = "1.0", default-features = false }
@@ -32,9 +32,9 @@ mystiko_ethers = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git",
 mystiko_protos = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "5c2233c", default-features = false, features = ["mystiko-api-config-v1"] }
 mystiko_scheduler = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "5c2233c", features = ["signal", "status"] }
 mystiko_sequencer_client = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "5c2233c" }
-mystiko_server_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "f1d55c2" }
+mystiko_server_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "15c5637" }
 mystiko_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "5c2233c", features = ["config", "json"] }
-mystiko_notification = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "f1d55c2", features = ["sns"] }
+mystiko_notification = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "15c5637", features = ["sns"] }
 
 
 [dev-dependencies]
