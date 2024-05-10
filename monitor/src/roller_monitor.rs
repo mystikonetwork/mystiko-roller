@@ -102,7 +102,7 @@ where
             .find_chain(chain_id)
             .ok_or(RollerMonitorError::ChainConfigNotFoundError(chain_id))?;
         for contract in chain_cfg.pool_contracts() {
-            if contract.version() >= 6 {
+            if contract.version() >= 6 && !contract.disabled() {
                 self.check_contract(chain_id, chain_name, contract.address(), provider.clone())
                     .await?;
             }
