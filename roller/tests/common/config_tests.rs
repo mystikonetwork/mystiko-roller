@@ -39,8 +39,7 @@ async fn test_default_roller_env_config() {
         .as_ref()
         .unwrap()
         .chains
-        .get(&1)
-        .is_some());
+        .contains_key(&1));
 
     std::env::set_var(
         "ROLLER_TEST_CONFIG.LOADER.CONFIG.FETCHER_CONFIG.ETHERSCAN.CHAINS.5.API_KEY",

@@ -22,6 +22,7 @@ impl ChainRoller {
         let pool_contracts: Vec<String> = chain_config
             .pool_contracts()
             .iter()
+            .filter(|pool| !pool.disabled())
             .map(|pool| pool.address().to_string())
             .collect();
         let builder = RollupTxBuilder::builder().context(context.clone()).build();
