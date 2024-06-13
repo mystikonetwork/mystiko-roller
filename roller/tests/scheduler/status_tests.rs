@@ -1,5 +1,5 @@
 use mystiko_roller::scheduler::status::{RollerStatusAction, RollerStatusGetter, RollerStatusWrapper};
-use mystiko_scheduler::SchedulerStatus;
+use mystiko_status_server::Status;
 use std::sync::Arc;
 
 #[tokio::test]

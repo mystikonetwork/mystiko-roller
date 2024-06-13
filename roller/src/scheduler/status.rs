@@ -1,7 +1,7 @@
 use async_trait::async_trait;
 use hyper::Body;
 use mime::Mime;
-use mystiko_scheduler::SchedulerStatus;
+use mystiko_status_server::Status;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use tokio::sync::RwLock;
@@ -30,7 +30,7 @@ pub enum RollerStatusAction {
 }
 
 #[async_trait]
-impl SchedulerStatus for RollerStatusGetter {
+impl Status for RollerStatusGetter {
     async fn status(&self) -> anyhow::Result<(mime::Mime, hyper::Body)> {
         let status = self.status.get_status().await;
         let body = Body::from(serde_json::to_string(&status)?);
@@ -40,7 +40,7 @@ impl SchedulerStatus for RollerStatusGetter {
 }
 
 #[async_trait]
-impl SchedulerStatus for Box<RollerStatusGetter> {
+impl Status for Box<RollerStatusGetter> {
     async fn status(&self) -> anyhow::Result<(Mime, Body)> {
         self.status().await
     }

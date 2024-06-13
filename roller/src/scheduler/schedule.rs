@@ -4,7 +4,8 @@ use crate::scheduler::policy::{RollerAbortPolicy, RollerRetryPolicy};
 use crate::scheduler::status::RollerStatusGetter;
 use crate::scheduler::task::{RollerRunParams, RollerTask};
 use log::info;
-use mystiko_scheduler::{AbortPolicy, RetryPolicy, Scheduler, SchedulerOptions, SchedulerStatus, StartOptions};
+use mystiko_scheduler::{AbortPolicy, RetryPolicy, Scheduler, SchedulerOptions, StartOptions};
+use mystiko_status_server::Status;
 use std::sync::Arc;
 
 pub struct RollerScheduler {
@@ -19,7 +20,7 @@ impl RollerScheduler {
         let scheduler_options = SchedulerOptions::<Option<_>, RollerTask>::builder()
             .task(roller.clone())
             .status_server_port(context.config.scheduler.status_server_port)
-            .status_getter(Arc::new(Box::new(roller_status_getter) as Box<dyn SchedulerStatus>))
+            .status_getter(Arc::new(Box::new(roller_status_getter) as Box<dyn Status>))
             .build();
         let scheduler = Scheduler::new(scheduler_options);
 
