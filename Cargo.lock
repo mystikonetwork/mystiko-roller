@@ -3381,7 +3381,7 @@ dependencies = [
 [[package]]
 name = "mystiko_downloader"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=15c5637#15c563708470b6e8dfa3ce7c053441b01ebc7766"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=18f8637#18f8637622df6d9bc3897133af4138fe344b04a5"
 dependencies = [
  "anyhow",
  "async-compression",
@@ -3436,7 +3436,7 @@ dependencies = [
 [[package]]
 name = "mystiko_fs"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=15c5637#15c563708470b6e8dfa3ce7c053441b01ebc7766"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=18f8637#18f8637622df6d9bc3897133af4138fe344b04a5"
 dependencies = [
  "anyhow",
  "async-compression",
@@ -3464,7 +3464,7 @@ dependencies = [
 [[package]]
 name = "mystiko_notification"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=15c5637#15c563708470b6e8dfa3ce7c053441b01ebc7766"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=18f8637#18f8637622df6d9bc3897133af4138fe344b04a5"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -3649,7 +3649,7 @@ dependencies = [
 [[package]]
 name = "mystiko_server_utils"
 version = "0.1.0"
-source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=15c5637#15c563708470b6e8dfa3ce7c053441b01ebc7766"
+source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=18f8637#18f8637622df6d9bc3897133af4138fe344b04a5"
 dependencies = [
  "anyhow",
  "async-trait",
