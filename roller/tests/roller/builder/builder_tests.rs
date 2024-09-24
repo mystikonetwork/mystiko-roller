@@ -343,7 +343,7 @@ async fn test_builder_force_calc_max_gas_price() {
         .returning(|_| Ok(f64::from_str("1000000000").unwrap()));
     token_price
         .expect_swap()
-        .returning(|_, _, _, _, _| Ok(U256::from(1_u64)));
+        .returning(|_, _, _, _, _| Ok(U256::from(1000000_u64)));
     mock_context.price = Arc::new(token_price);
 
     let arc_mock_context = Arc::new(mock_context.clone());
@@ -360,6 +360,29 @@ async fn test_builder_force_calc_max_gas_price() {
         .build();
     let result = builder.calc_max_gas_price(&plan).await;
     assert_eq!(result.unwrap(), U256::from(2_u64));
+
+    // swap 0, return current provider gas price
+    let mut token_price = MockRollerTokenPrice::new();
+    token_price
+        .expect_price()
+        .returning(|_| Ok(f64::from_str("1000000000").unwrap()));
+    token_price.expect_swap().returning(|_, _, _, _, _| Ok(U256::from(0)));
+    mock_context.price = Arc::new(token_price);
+
+    let arc_mock_context = Arc::new(mock_context.clone());
+    let builder = RollupTxBuilder::builder().context(arc_mock_context.clone()).build();
+    let plan = RollupPlanData::builder()
+        .pool_address(address.clone())
+        .total(1)
+        .sizes(vec![1])
+        .cms(vec![Commitment::builder()
+            .commitment_hash("123")
+            .block_number(1_u64)
+            .rollup_fee(vec![1])
+            .build()])
+        .build();
+    let result = builder.calc_max_gas_price(&plan).await;
+    assert_eq!(result.unwrap(), U256::from(1_u64));
 
     // force send rollup, not support 1559, use provider gas price
     let block_number = U256::from(1000);

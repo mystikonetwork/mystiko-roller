@@ -150,6 +150,9 @@ impl RollupTxBuilder {
             "plan max gas price={:?} provider current gas price={:?} config max gas price={:?} ",
             plan_max, provider_current, config_max
         );
+        if plan_max == U256::zero() {
+            return Ok(provider_current);
+        }
         match plan_max.cmp(&config_max) {
             std::cmp::Ordering::Greater => self.check_plan_gas_price_greater(&plan_max, &provider_current),
             std::cmp::Ordering::Less | std::cmp::Ordering::Equal => {
