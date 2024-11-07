@@ -31,12 +31,12 @@ mystiko_abi = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", re
 mystiko_config = { git = "ssh://git@github.com/mystikonetwork/mystiko-static-config.git", rev = "da78078", features = ["fs"] }
 mystiko_crypto = { git = "ssh://git@github.com/mystikonetwork/mystiko-protocol.git", rev = "93fbd08" }
 mystiko_ethers = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "6718362", features = ["config"] }
-mystiko_downloader = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "b7bb928" }
+mystiko_downloader = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "0e78984" }
 mystiko_dataloader = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "6718362" }
-mystiko_fs = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "b7bb928" }
+mystiko_fs = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "0e78984" }
 mystiko_scheduler = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "6718362", features = ["signal", "status"] }
 mystiko_status_server = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "6718362" }
-mystiko_server_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "b7bb928" }
+mystiko_server_utils = { git = "ssh://git@github.com/mystikonetwork/mystiko-backend.git", rev = "0e78984" }
 mystiko_storage = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "6718362" }
 mystiko_storage_sqlite = { git = "ssh://git@github.com/mystikonetwork/mystiko-rust.git", rev = "6718362" }
 mystiko_types = { git = "ssh://git@github.com/mystikonetwork/mystiko-static-config.git", rev = "da78078" }
