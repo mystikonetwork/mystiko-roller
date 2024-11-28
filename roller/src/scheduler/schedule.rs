@@ -50,9 +50,9 @@ impl RollerScheduler {
     }
 }
 
-pub async fn run() -> RollerResult<()> {
+pub async fn run(chain_id: Option<u64>) -> RollerResult<()> {
     let env_config = RollerEnvConfig::new()?;
-    let context = Arc::new(create_roller_context(&env_config).await?);
+    let context = Arc::new(create_roller_context(&env_config, chain_id).await?);
     let scheduler = Arc::new(RollerScheduler::new(context.clone()).await?);
     scheduler.start().await?;
     scheduler.wait_shutdown().await

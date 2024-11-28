@@ -12,14 +12,14 @@ use std::sync::Arc;
 
 #[tokio::test]
 async fn test_run() {
-    let result = run().await;
+    let result = run(None).await;
     assert!(result.is_err());
 }
 
 #[tokio::test]
 async fn test_scheduler_start() {
     let env_config = create_mock_env_config();
-    let context = Arc::new(create_roller_context(&env_config).await.unwrap());
+    let context = Arc::new(create_roller_context(&env_config, None).await.unwrap());
     let scheduler = RollerScheduler::new(context).await.unwrap();
     let result = scheduler.start().await;
     drop(scheduler);
@@ -29,7 +29,7 @@ async fn test_scheduler_start() {
 #[tokio::test]
 async fn test_scheduler_wait_shutdown() {
     let env_config = create_mock_env_config();
-    let context = Arc::new(create_roller_context(&env_config).await.unwrap());
+    let context = Arc::new(create_roller_context(&env_config, None).await.unwrap());
     let scheduler = RollerScheduler::new(context).await.unwrap();
     let result = scheduler.wait_shutdown().await;
     assert!(result.is_ok());

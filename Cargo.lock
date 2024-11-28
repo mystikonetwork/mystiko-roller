@@ -3462,6 +3462,44 @@ dependencies = [
 ]
 
 [[package]]
+name = "mystiko_monitor_rollup"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "clap",
+ "config",
+ "dotenv",
+ "env_logger",
+ "ethers-contract",
+ "ethers-core",
+ "ethers-providers",
+ "futures",
+ "hyper",
+ "log",
+ "mockall",
+ "mystiko_abi",
+ "mystiko_config",
+ "mystiko_ethers",
+ "mystiko_grpc",
+ "mystiko_protos",
+ "mystiko_roller",
+ "mystiko_scheduler",
+ "mystiko_server_utils",
+ "mystiko_utils 0.1.0 (git+ssh://git@github.com/mystikonetwork/mystiko-rust.git?rev=3e2613f)",
+ "num-bigint 0.4.4",
+ "rusoto_core",
+ "rusoto_sns",
+ "serde",
+ "serde_json",
+ "serial_test",
+ "thiserror",
+ "tokio",
+ "tonic",
+ "typed-builder",
+]
+
+[[package]]
 name = "mystiko_notification"
 version = "0.1.0"
 source = "git+ssh://git@github.com/mystikonetwork/mystiko-backend.git?rev=0e78984#0e78984ee92932089c6894a3dc5df6121ca9393b"
@@ -3533,6 +3571,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
+ "clap",
  "config",
  "crypto-bigint",
  "dotenv",

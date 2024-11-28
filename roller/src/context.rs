@@ -32,11 +32,14 @@ pub struct RollerContext {
     pub status: Arc<RollerStatusWrapper>,
 }
 
-pub async fn create_roller_context(env_config: &RollerEnvConfig) -> RollerResult<RollerContext> {
-    let config = create_roller_config(env_config)?;
+pub async fn create_roller_context(env_config: &RollerEnvConfig, chain_id: Option<u64>) -> RollerResult<RollerContext> {
+    let mut config = create_roller_config(env_config)?;
+    if let Some(chain) = chain_id {
+        config.chain_id = chain;
+    }
     let chain_id = config.chain_id;
-    roller_trace_init(&config)?;
 
+    roller_trace_init(&config)?;
     info!("start roller with chain id={:?}", chain_id);
     let mystiko_config = Arc::new(create_mystiko_config(env_config, &config.mystiko).await?);
     let chain_cfg = mystiko_config

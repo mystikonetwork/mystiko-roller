@@ -1,7 +1,8 @@
 [workspace]
 members = [
     "roller",
-    "monitor"
+    "monitor",
+    "monitor_rollup"
 ]
 resolver = "2"
 
