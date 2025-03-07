@@ -12,17 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: SSH Agent
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: |
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_BACKEND }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_CIRCUITS }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOCOL }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_PROTOS }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_RUST }}
-            ${{ secrets.SSH_PRIVATE_KEY_MYSTIKO_STATIC_CONFIG }}
-
       - name: Toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -35,10 +24,12 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Login to DockerHub
-        uses: docker/login-action@v2
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker meta
         id: meta
