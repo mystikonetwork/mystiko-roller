@@ -6,7 +6,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  docker:
+  docker-roller:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,9 +33,9 @@ jobs:
 
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
-          images: mystikonetwork/rollup-miner
+          images: ghcr.io/mystikonetwork/rollup-miner
           tags: |
             type=schedule
             type=ref,event=branch
@@ -50,7 +50,7 @@ jobs:
         run: cargo build --release --all-features
 
       - name: Docker Build and Push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./roller/docker/Dockerfile

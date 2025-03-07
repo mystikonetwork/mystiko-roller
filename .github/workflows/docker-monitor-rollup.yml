@@ -6,7 +6,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  docker:
+  docker-roller-monitor-rollup:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,9 +33,9 @@ jobs:
 
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
-          images: mystikonetwork/roller-monitor-rollup
+          images: ghcr.io/mystikonetwork/roller-monitor-rollup
           tags: |
             type=schedule
             type=ref,event=branch
