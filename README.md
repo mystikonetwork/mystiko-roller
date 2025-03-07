@@ -72,7 +72,7 @@ Ensure Docker is installed and then run Roller inside a container. Use the follo
 
 ```Shell
 cargo build --release
-docker build -t mystiko/roller -f docker/Dockerfile .
+docker build -t mystikonetwork/rollup-miner -f docker/Dockerfile .
 ```
 
 3. Prepare the configuration file `roller.json`, put `roller.json` in the `$(pwd)/config` directory.
