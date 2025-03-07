@@ -8,6 +8,7 @@ use ethers_providers::Middleware;
 use log::{debug, info, warn};
 use mystiko_abi::commitment_pool::CommitmentPool;
 use mystiko_crypto::merkle_tree::MerkleTree;
+use mystiko_crypto::zkp::{G16Proof, G16Prover};
 use mystiko_dataloader::handler::{CommitmentQueryOption, DataHandler};
 use mystiko_downloader::DownloaderBuilder;
 use mystiko_protocol::rollup::{Rollup, RollupProof};
@@ -109,7 +110,7 @@ impl RollupTxBuilder {
         pool_address: &str,
         new_leaves: Vec<BigUint>,
         included: u64,
-    ) -> RollerResult<RollupProof> {
+    ) -> RollerResult<RollupProof<G16Proof>> {
         let rollup_size = new_leaves.len();
         let circuits_type = circuit_type_from_rollup_size(rollup_size)?;
 
@@ -138,8 +139,15 @@ impl RollupTxBuilder {
             .await?;
 
         let mut tree = self.build_merkle_tree(pool_address, included).await?;
-        let mut rollup = Rollup::new(&mut tree, new_leaves, program, abi, proving_key);
-        Ok(rollup.prove()?)
+        let mut rollup = Rollup::builder()
+            .tree(&mut tree)
+            .new_leaves(new_leaves)
+            .program(program)
+            .abi(abi)
+            .proving_key(proving_key)
+            .build();
+        let prover = Arc::new(G16Prover);
+        Ok(rollup.prove(prover)?)
     }
 
     pub async fn calc_max_gas_price(&self, plan: &RollupPlanData) -> RollerResult<U256> {

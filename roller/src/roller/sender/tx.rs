@@ -63,7 +63,7 @@ impl RollupTxSender {
         proof_data: &RollupProofData,
     ) -> RollerResult<Bytes> {
         let request = RollupRequest {
-            proof: proof_data.proof.zk_proof.proof.convert_to()?,
+            proof: proof_data.proof.zk_proof.convert_to()?,
             rollup_size: proof_data.rollup_size as u32,
             new_root: biguint_to_u256(&proof_data.proof.new_root),
             leaf_hash: biguint_to_u256(&proof_data.proof.leaves_hash),

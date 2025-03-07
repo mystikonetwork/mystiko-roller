@@ -17,7 +17,7 @@ use std::{str::FromStr, sync::Arc};
 pub async fn start_monitor(config_path: Option<String>) -> RollerMonitorResult<Scheduler<(), RollerMonitor>> {
     let config = Arc::new(RollerMonitorConfig::new(config_path.map(PathBuf::from))?);
     let mystiko_config = Arc::new(MystikoConfig::from_options(config.mystiko.clone()).await?);
-    let providers = Arc::new(ProviderPool::new(mystiko_config.clone()));
+    let providers = Arc::new(ProviderPool::from(mystiko_config.clone()));
     let notification = Arc::new(SnsNotification::from_region(
         Region::from_str(&config.notification.region).map_err(RollerMonitorError::ParseRegionError)?,
     ));

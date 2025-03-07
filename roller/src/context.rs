@@ -74,7 +74,7 @@ pub async fn create_roller_context(env_config: &RollerEnvConfig, chain_id: Optio
     let tx_manager = builder.build::<JsonProviderWrapper>(Some(tx_type), &provider).await?;
     let tx_manager = Arc::new(tx_manager) as Arc<RollerTransactionMiddleware>;
     info!("chain support 1559 {:?}", tx_manager.tx_eip1559());
-    let is_testnet = config.mystiko.is_testnet.unwrap_or_default();
+    let is_testnet = config.mystiko.is_testnet;
     let token_price_cfg = create_token_price_config(is_testnet, env_config)?;
     let token_price = TokenPrice::new(&token_price_cfg, &env_config.token_price_api_key)?;
     let token_price = Arc::new(token_price) as Arc<RollerPriceMiddleware>;

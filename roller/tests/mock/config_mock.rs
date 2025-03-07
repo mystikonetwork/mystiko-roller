@@ -1,5 +1,4 @@
-use mystiko_config::MystikoConfig;
-use mystiko_protos::common::v1::ConfigOptions;
+use mystiko_config::{MystikoConfig, MystikoConfigOptions};
 use mystiko_roller::common::config::{create_mystiko_config, RollerConfig};
 use mystiko_roller::common::RollerEnvConfig;
 
@@ -20,6 +19,6 @@ pub async fn create_mock_roller_config(env_config: &RollerEnvConfig) -> RollerCo
 
 pub async fn create_mock_mystiko_config() -> MystikoConfig {
     let env_config = create_mock_env_config();
-    let options = ConfigOptions::builder().file_path("/home/".to_string()).build();
+    let options = MystikoConfigOptions::builder().file_path("/home/".to_string()).build();
     create_mystiko_config(&env_config, &options).await.unwrap()
 }

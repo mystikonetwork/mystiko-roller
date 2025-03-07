@@ -1,4 +1,5 @@
-use mystiko_protos::{common::v1::ConfigOptions, service::v1::ClientOptions};
+use mystiko_config::MystikoConfigOptions;
+use mystiko_protos::service::v1::ClientOptions;
 use mystiko_roller_monitor::{
     ChainMonitorConfig, DefaultRetryPolicy, NotificationConfig, RollerMonitorConfig, RollerMonitorError,
     SchedulerConfig,
@@ -35,7 +36,7 @@ fn test_default_config() {
         test_sequencer_options.ssl_server_name,
         default_sequencer_options.ssl_server_name
     );
-    let default_mystiko_options = ConfigOptions::default();
+    let default_mystiko_options = MystikoConfigOptions::default();
     let test_mystiko_options = config.clone().mystiko;
     assert_eq!(test_mystiko_options.file_path, default_mystiko_options.file_path);
     assert_eq!(test_mystiko_options.is_testnet, default_mystiko_options.is_testnet);
@@ -117,11 +118,11 @@ fn check_config(config: RollerMonitorConfig) {
     assert_eq!(chains.get(&1_u64).unwrap().max_rollup_delay_block, 1000);
     assert_eq!(chains.get(&2_u64).unwrap().max_rollup_delay_block, 2000);
     let mystiko = config.mystiko;
-    assert_eq!(mystiko.file_path(), "test_file_path");
-    assert!(mystiko.is_testnet());
-    assert!(!mystiko.is_staging());
-    assert_eq!(mystiko.git_revision(), "test_git_revision");
-    assert_eq!(mystiko.remote_base_url(), "test_remote_base_url");
+    assert_eq!(mystiko.file_path, Some("test_file_path".to_string()));
+    assert!(mystiko.is_testnet);
+    assert!(!mystiko.is_staging);
+    assert_eq!(mystiko.git_revision, Some("test_git_revision".to_string()));
+    assert_eq!(mystiko.remote_base_url, Some("test_remote_base_url".to_string()));
 
     let scheduler_config = config.scheduler;
     assert_eq!(scheduler_config.interval_ms, 120000);

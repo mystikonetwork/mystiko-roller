@@ -30,7 +30,7 @@ async fn test_sender_rollup_contract_address_error() {
     let sender = RollupTxSender::builder().context(arc_mock_context).build();
     let address = "0xxx";
     let gas_price = U256::from(100000000_u64);
-    let data = mock_proof_data();
+    let data = mock_proof_data().await;
     let proof_data = RollupProofData::builder()
         .pool_address(address.to_string())
         .rollup_size(1_usize)
@@ -71,7 +71,7 @@ async fn test_sender_rollup_success() {
     // success
     let address = "0x932f3DD5b6C0F5fe1aEc31Cb38B7a57d01496411";
     let gas_price = U256::from(100000000_u64);
-    let data = mock_proof_data();
+    let data = mock_proof_data().await;
     let proof_data = RollupProofData::builder()
         .pool_address(address.to_string())
         .rollup_size(1_usize)
@@ -110,7 +110,7 @@ async fn test_sender_rollup_provider_error() {
     // success
     let address = "0x932f3DD5b6C0F5fe1aEc31Cb38B7a57d01496411";
     let gas_price = U256::from(100000000_u64);
-    let data = mock_proof_data();
+    let data = mock_proof_data().await;
     let proof_data = RollupProofData::builder()
         .pool_address(address.to_string())
         .rollup_size(1_usize)

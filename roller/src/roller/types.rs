@@ -1,4 +1,5 @@
 use ethers_core::types::{TxHash, U256};
+use mystiko_crypto::zkp::G16Proof;
 use mystiko_protocol::rollup::RollupProof;
 use mystiko_protos::data::v1::Commitment;
 use typed_builder::TypedBuilder;
@@ -18,7 +19,7 @@ pub struct RollupProofData {
     pub pool_address: String,
     pub rollup_size: usize,
     pub max_gas_price: U256,
-    pub proof: RollupProof,
+    pub proof: RollupProof<G16Proof>,
     pub next_rollup: bool,
 }
 

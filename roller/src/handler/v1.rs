@@ -81,7 +81,7 @@ impl RollerDatabaseHandler {
         let collection = Arc::new(Collection::new(formatter, storage));
 
         let database_handler = LiteDataDatabaseHandler::builder()
-            .config(mystiko_config.clone())
+            .config(mystiko_config)
             .collection(collection)
             .build();
 
