@@ -3214,13 +3214,13 @@ dependencies = [
 [[package]]
 name = "mystiko_config"
 version = "0.1.0"
-source = "git+https://github.com/mystikonetwork/mystiko-static-config?rev=21b4e6f#21b4e6f06e81a7ffdc8ae60d8d1f75ce56b1d497"
+source = "git+https://github.com/mystikonetwork/mystiko-static-config?rev=a290629#a290629e92727741c0966ea241f3938e10ee139a"
 dependencies = [
  "anyhow",
  "lazy_static",
  "log",
- "mystiko_types 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=21b4e6f)",
- "mystiko_validator 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=21b4e6f)",
+ "mystiko_types",
+ "mystiko_validator",
  "num-bigint 0.4.4",
  "num-traits 0.2.18",
  "regex 1.10.4",
@@ -3229,27 +3229,6 @@ dependencies = [
  "serde",
  "serde_json",
  "tokio",
- "typed-builder",
- "validator",
-]
-
-[[package]]
-name = "mystiko_config"
-version = "0.1.0"
-source = "git+https://github.com/mystikonetwork/mystiko-static-config?rev=a290629#a290629e92727741c0966ea241f3938e10ee139a"
-dependencies = [
- "anyhow",
- "lazy_static",
- "log",
- "mystiko_types 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=a290629)",
- "mystiko_validator 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=a290629)",
- "num-bigint 0.4.4",
- "num-traits 0.2.18",
- "regex 1.10.4",
- "reqwest",
- "rust_decimal",
- "serde",
- "serde_json",
  "typed-builder",
  "validator",
 ]
@@ -3307,7 +3286,7 @@ dependencies = [
  "futures",
  "log",
  "mystiko_abi",
- "mystiko_config 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=a290629)",
+ "mystiko_config",
  "mystiko_crypto",
  "mystiko_datapacker_client",
  "mystiko_ethers",
@@ -3316,7 +3295,7 @@ dependencies = [
  "mystiko_sequencer_client",
  "mystiko_storage",
  "mystiko_storage_macros",
- "mystiko_types 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=a290629)",
+ "mystiko_types",
  "mystiko_utils 0.1.0 (git+https://github.com/mystikonetwork/mystiko-rust?rev=4f46073)",
  "num-bigint 0.4.4",
  "rustc-hex",
@@ -3337,10 +3316,10 @@ dependencies = [
  "ethers-core",
  "futures",
  "log",
- "mystiko_config 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=a290629)",
+ "mystiko_config",
  "mystiko_datapacker_common",
  "mystiko_protos",
- "mystiko_types 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=a290629)",
+ "mystiko_types",
  "mystiko_utils 0.1.0 (git+https://github.com/mystikonetwork/mystiko-rust?rev=4f46073)",
  "prost",
  "reqwest",
@@ -3394,8 +3373,8 @@ dependencies = [
  "ethers-providers",
  "futures-core",
  "lazy_static",
- "mystiko_config 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=a290629)",
- "mystiko_types 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=a290629)",
+ "mystiko_config",
+ "mystiko_types",
  "regex 1.10.4",
  "reqwest",
  "serde",
@@ -3469,7 +3448,7 @@ dependencies = [
  "log",
  "mockall",
  "mystiko_abi",
- "mystiko_config 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=21b4e6f)",
+ "mystiko_config",
  "mystiko_ethers",
  "mystiko_grpc",
  "mystiko_protos",
@@ -3529,9 +3508,9 @@ source = "git+https://github.com/mystikonetwork/mystiko-rust?rev=4f46073#4f46073
 dependencies = [
  "anyhow",
  "http",
- "mystiko_config 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=a290629)",
+ "mystiko_config",
  "mystiko_protos_macros",
- "mystiko_types 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=a290629)",
+ "mystiko_types",
  "mystiko_utils 0.1.0 (git+https://github.com/mystikonetwork/mystiko-rust?rev=4f46073)",
  "num-bigint 0.4.4",
  "num-traits 0.2.18",
@@ -3577,7 +3556,7 @@ dependencies = [
  "mime",
  "mockall",
  "mystiko_abi",
- "mystiko_config 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=21b4e6f)",
+ "mystiko_config",
  "mystiko_crypto",
  "mystiko_dataloader",
  "mystiko_downloader",
@@ -3591,7 +3570,7 @@ dependencies = [
  "mystiko_storage",
  "mystiko_storage_macros",
  "mystiko_storage_sqlite",
- "mystiko_types 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=21b4e6f)",
+ "mystiko_types",
  "mystiko_utils 0.1.0 (git+https://github.com/mystikonetwork/mystiko-rust?rev=4f46073)",
  "num-bigint 0.4.4",
  "serde",
@@ -3620,7 +3599,7 @@ dependencies = [
  "log",
  "mockall",
  "mystiko_abi",
- "mystiko_config 0.1.0 (git+https://github.com/mystikonetwork/mystiko-static-config?rev=21b4e6f)",
+ "mystiko_config",
  "mystiko_ethers",
  "mystiko_grpc",
  "mystiko_notification",
@@ -3768,14 +3747,6 @@ dependencies = [
 [[package]]
 name = "mystiko_types"
 version = "0.1.0"
-source = "git+https://github.com/mystikonetwork/mystiko-static-config?rev=21b4e6f#21b4e6f06e81a7ffdc8ae60d8d1f75ce56b1d497"
-dependencies = [
- "serde",
-]
-
-[[package]]
-name = "mystiko_types"
-version = "0.1.0"
 source = "git+https://github.com/mystikonetwork/mystiko-static-config?rev=a290629#a290629e92727741c0966ea241f3938e10ee139a"
 dependencies = [
  "serde",
@@ -3813,16 +3784,6 @@ dependencies = [
  "serde",
  "serde_json",
  "typed-builder",
-]
-
-[[package]]
-name = "mystiko_validator"
-version = "0.1.0"
-source = "git+https://github.com/mystikonetwork/mystiko-static-config?rev=21b4e6f#21b4e6f06e81a7ffdc8ae60d8d1f75ce56b1d497"
-dependencies = [
- "lazy_static",
- "regex 1.10.4",
- "validator",
 ]
 
 [[package]]

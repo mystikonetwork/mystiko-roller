@@ -1,5 +1,6 @@
 use crate::{common::RollerMonitorResult, RollerMonitorError};
-use mystiko_protos::{common::v1::ConfigOptions, service::v1::ClientOptions};
+use mystiko_config::MystikoConfigOptions;
+use mystiko_protos::service::v1::ClientOptions;
 use mystiko_scheduler::{RetryPolicy, StartOptions};
 use mystiko_utils::config::{load_config, ConfigFile, ConfigLoadOptions};
 use serde::{Deserialize, Serialize};
@@ -33,7 +34,7 @@ pub struct RollerMonitorConfig {
 
     #[builder(default)]
     #[serde(default)]
-    pub mystiko: ConfigOptions,
+    pub mystiko: MystikoConfigOptions,
 
     #[builder(default)]
     #[serde(default)]

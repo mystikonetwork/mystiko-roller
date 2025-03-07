@@ -29,7 +29,7 @@ mystiko_roller = { version = "0.1.0", path = "../roller" }
 
 # mystiko
 mystiko_abi = { git = "https://github.com/mystikonetwork/mystiko-rust", rev = "4f46073" }
-mystiko_config = { git = "https://github.com/mystikonetwork/mystiko-static-config", rev = "21b4e6f", features = ["fs"] }
+mystiko_config = { git = "https://github.com/mystikonetwork/mystiko-static-config", rev = "a290629", features = ["fs"] }
 mystiko_ethers = { git = "https://github.com/mystikonetwork/mystiko-rust", rev = "4f46073", features = ["config"] }
 mystiko_protos = { git = "https://github.com/mystikonetwork/mystiko-rust", rev = "4f46073", default-features = false, features = ["mystiko-api-config-v1"] }
 mystiko_scheduler = { git = "https://github.com/mystikonetwork/mystiko-rust", rev = "4f46073", features = ["signal", "status"] }

@@ -1,7 +1,6 @@
 use crate::common::{RollerEnvConfig, RollerResult};
 use log::info;
-use mystiko_config::MystikoConfig;
-use mystiko_protos::common::v1::ConfigOptions;
+use mystiko_config::{MystikoConfig, MystikoConfigOptions};
 use mystiko_protos::loader::v1::{
     FetcherType, LoaderConfig, RuleValidatorCheckerType, RuleValidatorConfig, ValidatorConfig, ValidatorType,
 };
@@ -38,7 +37,7 @@ pub struct RollerConfig {
 
     #[builder(default)]
     #[serde(default)]
-    pub mystiko: ConfigOptions,
+    pub mystiko: MystikoConfigOptions,
 
     #[builder(default)]
     #[serde(default)]
@@ -230,7 +229,7 @@ pub fn create_roller_config(env_config: &RollerEnvConfig) -> RollerResult<Roller
 
 pub async fn create_mystiko_config(
     env_config: &RollerEnvConfig,
-    options: &ConfigOptions,
+    options: &MystikoConfigOptions,
 ) -> RollerResult<MystikoConfig> {
     let config_file = env_config.mystiko_config_file();
     match config_file {

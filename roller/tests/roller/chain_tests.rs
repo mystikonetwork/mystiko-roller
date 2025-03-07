@@ -116,7 +116,7 @@ async fn test_chain_rollup_success() {
     let arc_mock_context = Arc::new(mock_context);
     let address = "0x932f3DD5b6C0F5fe1aEc31Cb38B7a57d01496411";
     let gas_price = U256::from(100000000_u64);
-    let data = mock_proof_data();
+    let data = mock_proof_data().await;
     let proof_data = RollupProofData::builder()
         .pool_address(address.to_string())
         .rollup_size(1_usize)
