@@ -32,9 +32,9 @@ mystiko_ethers = { git = "https://github.com/mystikonetwork/mystiko-rust", rev =
 mystiko_protos = { git = "https://github.com/mystikonetwork/mystiko-rust", rev = "4f46073", default-features = false, features = ["mystiko-api-config-v1"] }
 mystiko_scheduler = { git = "https://github.com/mystikonetwork/mystiko-rust", rev = "4f46073", features = ["signal", "status"] }
 mystiko_sequencer_client = { git = "https://github.com/mystikonetwork/mystiko-rust", rev = "4f46073" }
-mystiko_server_utils = { git = "https://github.com/mystikonetwork/mystiko-backend", rev = "d2d641c" }
+mystiko_server_utils = { git = "https://github.com/mystikonetwork/mystiko-backend", rev = "e6ea96b" }
 mystiko_utils = { git = "https://github.com/mystikonetwork/mystiko-rust", rev = "4f46073", features = ["config", "json"] }
-mystiko_notification = { git = "https://github.com/mystikonetwork/mystiko-backend", rev = "d2d641c", features = ["sns"] }
+mystiko_notification = { git = "https://github.com/mystikonetwork/mystiko-backend", rev = "e6ea96b", features = ["sns"] }
 
 
 [dev-dependencies]
