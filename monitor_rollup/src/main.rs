@@ -17,7 +17,7 @@ async fn main() {
             log::info!("monitor_rollup has been stopped with result: {:?}", result);
         }
         Err(err) => {
-            eprintln!("monitor_rollup start meet error: {}", err);
+            eprintln!("monitor_rollup start meet error: {err}");
         }
     }
 }
