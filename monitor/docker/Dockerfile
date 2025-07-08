@@ -1,8 +1,18 @@
-FROM rust:slim
+FROM rust:1.75-slim as builder
 
-RUN apt update
-RUN apt install -y curl
+WORKDIR /usr/src/app
+COPY . .
 
-COPY target/release/mystiko_roller_monitor /usr/local/bin/mystiko_roller_monitor
+RUN cargo build --release --bin mystiko_roller_monitor
+
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /usr/src/app/target/release/mystiko_roller_monitor /usr/local/bin/mystiko_roller_monitor
+
 EXPOSE 21828
 CMD ["mystiko_roller_monitor"]
