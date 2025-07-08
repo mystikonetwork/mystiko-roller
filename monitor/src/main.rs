@@ -17,7 +17,7 @@ async fn main() {
             log::info!("roller_monitor has been stopped with result: {:?}", result);
         }
         Err(err) => {
-            eprintln!("roller_monitor start meet error: {}", err);
+            eprintln!("roller_monitor start meet error: {err}");
         }
     }
 }

@@ -10,6 +10,7 @@ mock! {
     #[async_trait]
     impl PriceMiddleware for RollerTokenPrice{
         async fn price(&self, symbol: &str) -> PriceMiddlewareResult<f64>;
+        async fn price_by_times(&self, symbol: &str, times: u64) -> PriceMiddlewareResult<f64>;
         async fn swap(
             &self,
             asset_a: &str,

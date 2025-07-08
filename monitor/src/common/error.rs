@@ -23,7 +23,7 @@ pub enum RollerMonitorError {
     #[error(transparent)]
     SchedulerError(#[from] SchedulerError),
     #[error(transparent)]
-    SequencerClientError(#[from] SequencerClientError),
+    SequencerClientError(Box<SequencerClientError>),
     #[error(transparent)]
     ProviderError(#[from] ProviderError),
     #[error(transparent)]
@@ -32,4 +32,10 @@ pub enum RollerMonitorError {
     SerdeJsonError(#[from] serde_json::Error),
     #[error(transparent)]
     AnyhowError(#[from] AnyhowError),
+}
+
+impl From<SequencerClientError> for RollerMonitorError {
+    fn from(err: SequencerClientError) -> Self {
+        RollerMonitorError::SequencerClientError(Box::new(err))
+    }
 }

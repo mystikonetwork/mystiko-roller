@@ -56,10 +56,7 @@ where
             .map(|c| async move { self.check_chain(c.chain_id(), c.name()).await })
             .collect::<Vec<_>>();
         let check_results = futures::future::join_all(checks).await;
-        let error = check_results.into_iter().find_map(|result| match result {
-            Ok(_) => None,
-            Err(err) => Some(err),
-        });
+        let error = check_results.into_iter().find_map(|result| result.err());
 
         if let Some(error) = error {
             log::error!("roller_monitor raised error when running: {}", error);
@@ -155,7 +152,7 @@ where
                                 .into_message(),
                         )
                         .await
-                        .map_err(|err| RollerMonitorError::PushMessageError(format!("{:?}", err)))?;
+                        .map_err(|err| RollerMonitorError::PushMessageError(format!("{err:?}")))?;
                 }
             }
         }
