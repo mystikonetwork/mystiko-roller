@@ -3,7 +3,7 @@ name: Docker-Roller
 on:
   workflow_dispatch:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
 
 jobs:
   docker-roller:
@@ -44,10 +44,6 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=sha
-
-      - name: Build
-        working-directory: ./roller
-        run: cargo build --release --all-features
 
       - name: Docker Build and Push
         uses: docker/build-push-action@v5
